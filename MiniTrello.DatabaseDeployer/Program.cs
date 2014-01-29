@@ -35,14 +35,15 @@ namespace MiniTrello.DatabaseDeployer
             {
                 dd.Seed(new List<IDataSeeder>
                             {
-                                new AccountSeeder(session)
+                                new AccountSeeder(session),
+                                new BoardSeeder(session)
                             });
                 tx.Commit();
             }
             session.Close();
             sessionFactory.Close();
             Console.WriteLine("Seed data added.");
-            Thread.Sleep(2000);
+            Thread.Sleep(5000);
         }
     }
 }
