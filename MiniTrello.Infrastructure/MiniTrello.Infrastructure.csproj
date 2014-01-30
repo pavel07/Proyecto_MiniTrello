@@ -90,7 +90,10 @@
     <Compile Include="App_Start\AttributeRoutingHttpConfig.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="ConfigureAutomapper.cs" />
+    <Compile Include="ConfigureCache.cs" />
+    <Compile Include="ConfigureDatabase.cs" />
     <Compile Include="ConfigureDependencies.cs" />
+    <Compile Include="ConfigureExceptionHandling.cs" />
     <Compile Include="ConfigureRoutes.cs" />
     <Compile Include="ConfigureThisWebApplication.cs" />
     <Compile Include="IBootstrapperTask.cs" />
@@ -104,6 +107,16 @@
       <Link>AutoMapper.Net4.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MiniTrello.Data\MiniTrello.Data.csproj">
+      <Project>{A854B59C-A908-4926-8CC5-FB4277F3B4DB}</Project>
+      <Name>MiniTrello.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MiTrello.Domain\MiTrello.Domain.csproj">
+      <Project>{ECDF8611-C8A9-42B8-A412-0450EFAE0AEB}</Project>
+      <Name>MiTrello.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
