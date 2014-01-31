@@ -1,5 +1,6 @@
 using AutoMapper;
-using MiTrello.Domain.Entities;
+using MiniTrello.Domain.Entities;
+
 
 namespace MiniTrello.Infrastructure
 {
@@ -11,7 +12,7 @@ namespace MiniTrello.Infrastructure
         {
             //automappings go here
             //Ex: Mapper.CreateMap<SomeType, SomeOtherType>().ReverseMap();
-          //  Mapper.CreateMap<Account, AccountLoginModel>().ReverseMap();
+            Mapper.CreateMap<Account, AccountLoginModel>().ReverseMap();
           
         }
 

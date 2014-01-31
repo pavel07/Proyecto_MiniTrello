@@ -1,6 +1,6 @@
 using System;
-using MiTrello.Domain.Entities;
-using MiTrello.Domain.Services;
+using MiniTrello.Domain.Entities;
+using MiniTrello.Domain.Services;
 using NHibernate;
 
 namespace MiniTrello.Data

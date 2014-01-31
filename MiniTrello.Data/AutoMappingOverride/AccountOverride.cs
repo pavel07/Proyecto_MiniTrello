@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FluentNHibernate.Automapping;
 using FluentNHibernate.Automapping.Alterations;
 using FluentNHibernate.Mapping;
-using MiTrello.Domain.Entities;
+using MiniTrello.Domain.Entities;
 
 namespace MiniTrello.Data.AutoMappingOverride
 {

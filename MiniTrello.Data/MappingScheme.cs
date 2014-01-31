@@ -7,7 +7,7 @@ using AcklenAvenue.Data;
 using FluentNHibernate.Automapping;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Conventions.Helpers;
-using MiTrello.Domain.Entities;
+using MiniTrello.Domain.Entities;
 
 namespace MiniTrello.Data
 {

@@ -1,4 +1,4 @@
-﻿namespace MiTrello.Domain.Entities
+﻿namespace MiniTrello.Domain.Entities
 {
     public interface IEntity
     {

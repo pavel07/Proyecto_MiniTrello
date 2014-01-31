@@ -1,6 +1,6 @@
-using MiTrello.Domain.Entities;
+using MiniTrello.Domain.Entities;
 
-namespace MiTrello.Domain.Services
+namespace MiniTrello.Domain.Services
 {
     public interface IWriteOnlyRepository
     {

@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using AutoMapper;
 using MiniTrello.Data;
-using MiTrello.Domain.Services;
+using MiniTrello.Domain.Services;
 
 namespace MiniTrello.Infrastructure
 {

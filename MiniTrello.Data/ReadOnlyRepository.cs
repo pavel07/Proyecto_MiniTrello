@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using MiTrello.Domain.Entities;
-using MiTrello.Domain.Services;
+using MiniTrello.Domain.Entities;
+using MiniTrello.Domain.Services;
 using NHibernate;
 using NHibernate.Linq;
 

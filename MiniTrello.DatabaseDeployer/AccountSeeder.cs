@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using DomainDrivenDatabaseDeployer;
 using FizzWare.NBuilder;
-using MiTrello.Domain.Entities;
+using MiniTrello.Domain.Entities;
 using NHibernate;
 
 namespace MiniTrello.DatabaseDeployer

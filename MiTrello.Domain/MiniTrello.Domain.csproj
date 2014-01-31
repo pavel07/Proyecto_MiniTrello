@@ -7,8 +7,8 @@
     <ProjectGuid>{ECDF8611-C8A9-42B8-A412-0450EFAE0AEB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MiTrello.Domain</RootNamespace>
-    <AssemblyName>MiTrello.Domain</AssemblyName>
+    <RootNamespace>MiniTrello.Domain</RootNamespace>
+    <AssemblyName>MiniTrello.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
