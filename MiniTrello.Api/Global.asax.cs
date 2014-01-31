@@ -10,7 +10,6 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
 using MiniTrello.Api.Controllers;
-using MiniTrello.Infrastructure;
 
 namespace MiniTrello.Api
 {
@@ -28,25 +27,5 @@ namespace MiniTrello.Api
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
-
-        public IContainer BuildContainer()
-        {
-            var containerBuilder = new ContainerBuilder();
-
-            return new Bootstrapper(containerBuilder)
-                 .WithTask(new ConfigureDependencies(containerBuilder))
-                 .WithTask(new ConfigureAutomapper())
-                 .WithExampleMvcController<HomeController>()
-                 .WithExampleWebApiController<ValuesController>()
-                 .AndAfterContainerIsBuilt(container =>
-                 {
-                     GlobalConfiguration.Configuration.DependencyResolver =
-                         new AutofacWebApiDependencyResolver(container);
-                     DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
-                 })
-                 .Run();
-        }
-
-
     }
 }

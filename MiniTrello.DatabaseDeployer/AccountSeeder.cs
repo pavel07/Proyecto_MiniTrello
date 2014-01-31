@@ -25,7 +25,8 @@ namespace MiniTrello.DatabaseDeployer
                 {
                     _session.Save(board);
                 }
-                account.Boards = boards;
+                account.AddBoard(boards[0]);
+                account.AddBoard(boards[1]);
                 _session.Save(account);
             }
         }

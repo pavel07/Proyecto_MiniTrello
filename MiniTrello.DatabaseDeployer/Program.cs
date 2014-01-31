@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using AcklenAvenue.Data.NHibernate;
 using DomainDrivenDatabaseDeployer;
 using FluentNHibernate.Cfg.Db;
@@ -17,11 +14,11 @@ namespace MiniTrello.DatabaseDeployer
         static void Main(string[] args)
         {
             MsSqlConfiguration databaseConfiguration = MsSqlConfiguration.MsSql2008.ShowSql().
-               ConnectionString(x => x.FromConnectionStringWithKey("MiniTrello.Local"));
+                ConnectionString(x => x.FromConnectionStringWithKey("MiniTrello.Local"));
 
             DomainDrivenDatabaseDeployer.DatabaseDeployer dd = null;
             ISessionFactory sessionFactory = new SessionFactoryBuilder(new MappingScheme(), databaseConfiguration)
-               .Build(cfg => { dd = new DomainDrivenDatabaseDeployer.DatabaseDeployer(cfg); });
+                .Build(cfg => { dd = new DomainDrivenDatabaseDeployer.DatabaseDeployer(cfg); });
 
             dd.Drop();
             Console.WriteLine("Database dropped.");
@@ -34,10 +31,9 @@ namespace MiniTrello.DatabaseDeployer
             using (ITransaction tx = session.BeginTransaction())
             {
                 dd.Seed(new List<IDataSeeder>
-                            {
-                                new AccountSeeder(session),
-                                new BoardSeeder(session)
-                            });
+                {
+                    new AccountSeeder(session)
+                });
                 tx.Commit();
             }
             session.Close();
