@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Reflection.Emit;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Web.Http;
 using AttributeRouting.Web.Http;
 
@@ -15,7 +11,7 @@ namespace MiniTrello.Api.Controllers
         [GET("values")]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new[] {"value1", "value2"};
         }
 
         // GET api/values/5
@@ -27,13 +23,13 @@ namespace MiniTrello.Api.Controllers
 
         // POST api/values
         [POST("values")]
-        public void Post([FromBody]string value)
+        public void Post([FromBody] string value)
         {
         }
 
         // PUT api/values/5
         [PUT("values/{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody] string value)
         {
         }
 

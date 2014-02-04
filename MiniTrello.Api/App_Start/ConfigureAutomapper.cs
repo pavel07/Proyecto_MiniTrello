@@ -11,6 +11,7 @@ namespace MiniTrello.Api
         public void Run()
         {
             Mapper.CreateMap<Account, AccountLoginModel>().ReverseMap();
+            Mapper.CreateMap<Account, AccountRegisterModel>().ReverseMap();
             //Mapper.CreateMap<DemographicsEntity, DemographicsModel>().ReverseMap();
             //Mapper.CreateMap<IReportEntity, IReportModel>()
             //    .Include<DemographicsEntity, DemographicsModel>();
