@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web;
@@ -11,6 +12,15 @@ using MiniTrello.Domain.Services;
 
 namespace MiniTrello.Api.Controllers
 {
+    public class BoardController : ApiController
+    {
+        [GET("boards/{boardId}/{token}")]
+        public List<String> GetBoards(string token, string boardId)
+        {
+            return null;
+        }
+    }
+
     public class AccountController : ApiController
     {
         readonly IReadOnlyRepository _readOnlyRepository;
