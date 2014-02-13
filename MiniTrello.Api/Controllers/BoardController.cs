@@ -25,6 +25,7 @@ namespace MiniTrello.Api.Controllers
             _mappingEngine = mappingEngine;
         }
 
+        /*
         [PUT("boards/addmember/{accessToken}")]
         public BoardModel AddMember([FromBody] AddMemberBoardModel model, string accessToken)
         {
@@ -37,9 +38,10 @@ namespace MiniTrello.Api.Controllers
             var updatedBoard = _writeOnlyRepository.Update(board);
             var boardModel = _mappingEngine.Map<Board, BoardModel>(updatedBoard);
             return boardModel;
-        }
+        }*/
     }
 
+    /*
     public class AddMemberBoardModel
     {
         public long MemberId { get; set; }
@@ -49,5 +51,5 @@ namespace MiniTrello.Api.Controllers
     public class BoardModel
     {
         public string Title { get; set; }
-    }
+    }*/
 }

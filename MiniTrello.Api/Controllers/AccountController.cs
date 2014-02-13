@@ -47,12 +47,13 @@ namespace MiniTrello.Api.Controllers
         [POST("register")]
         public HttpResponseMessage Register([FromBody] AccountRegisterModel model)
         {
+            
             var validateMessage = _registerValidator.Validate(model);
             if (!String.IsNullOrEmpty(validateMessage))
             {
                 throw new BadRequestException(validateMessage);
             }
-            Account account = _mappingEngine.Map<AccountRegisterModel,Account>(model);
+            Account account = _mappingEngine.Map<AccountRegisterModel, Account>(model);
             Account accountCreated = _writeOnlyRepository.Create(account);
             if (accountCreated != null)
             {

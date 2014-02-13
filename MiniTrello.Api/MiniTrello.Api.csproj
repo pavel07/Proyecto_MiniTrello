@@ -332,7 +332,7 @@
       <Project>{A60BA21D-C58A-4846-BB43-FDCE2FC64A20}</Project>
       <Name>MiniTrello.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MiTrello.Domain\MiniTrello.Domain.csproj">
+    <ProjectReference Include="..\MiniTrello.Domain\MiniTrello.Domain.csproj">
       <Project>{ECDF8611-C8A9-42B8-A412-0450EFAE0AEB}</Project>
       <Name>MiniTrello.Domain</Name>
     </ProjectReference>
