@@ -20,7 +20,7 @@ namespace MiniTrello.Domain.Entities
 
         public virtual void AddBoard(Board board)
         {
-            if (_boards.Contains(board))
+            if (!_boards.Contains(board))
             {
                 _boards.Add(board);
             }

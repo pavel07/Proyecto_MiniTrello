@@ -6,33 +6,27 @@ using System.Web;
 using System.Web.Http;
 using AttributeRouting.Web.Http;
 using AutoMapper;
+using MiniTrello.Api.CustomExceptions;
 using MiniTrello.Api.Models;
 using MiniTrello.Domain.Entities;
 using MiniTrello.Domain.Services;
 
 namespace MiniTrello.Api.Controllers
 {
-    public class BoardController : ApiController
-    {
-        [GET("boards/{boardId}/{token}")]
-        public List<String> GetBoards(string token, string boardId)
-        {
-            return null;
-        }
-    }
-
     public class AccountController : ApiController
     {
         readonly IReadOnlyRepository _readOnlyRepository;
         readonly IWriteOnlyRepository _writeOnlyRepository;
         readonly IMappingEngine _mappingEngine;
+        readonly IRegisterValidator<AccountRegisterModel> _registerValidator;
 
         public AccountController(IReadOnlyRepository readOnlyRepository, IWriteOnlyRepository writeOnlyRepository,
-            IMappingEngine mappingEngine)
+            IMappingEngine mappingEngine, IRegisterValidator<AccountRegisterModel> registerValidator)
         {
             _readOnlyRepository = readOnlyRepository;
             _writeOnlyRepository = writeOnlyRepository;
             _mappingEngine = mappingEngine;
+            _registerValidator = registerValidator;
         }
 
         [POST("login")]
@@ -53,9 +47,10 @@ namespace MiniTrello.Api.Controllers
         [POST("register")]
         public HttpResponseMessage Register([FromBody] AccountRegisterModel model)
         {
-            if (model.Password != model.ConfirmPassword)
+            var validateMessage = _registerValidator.Validate(model);
+            if (!String.IsNullOrEmpty(validateMessage))
             {
-                throw new BadRequestException("Claves no son iguales");
+                throw new BadRequestException(validateMessage);
             }
             Account account = _mappingEngine.Map<AccountRegisterModel,Account>(model);
             Account accountCreated = _writeOnlyRepository.Create(account);
@@ -64,23 +59,6 @@ namespace MiniTrello.Api.Controllers
                 return new HttpResponseMessage(HttpStatusCode.OK);
             }
             throw new BadRequestException("Hubo un error al guardar el usuario");
-        }
-    }
-
-    public class BadRequestException : HttpResponseException
-    {
-        public BadRequestException(HttpStatusCode statusCode) : base(statusCode)
-        {
-        }
-
-        public BadRequestException(HttpResponseMessage response) : base(response)
-        {
-        }
-
-        public BadRequestException(string errorMessage) : base(HttpStatusCode.BadRequest)
-        {
-            
-            this.Response.ReasonPhrase = errorMessage;
         }
     }
 }

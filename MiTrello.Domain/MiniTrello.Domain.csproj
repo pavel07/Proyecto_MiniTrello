@@ -44,6 +44,7 @@
     <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IReadOnlyRepository.cs" />
+    <Compile Include="Services\IRegisterValidator.cs" />
     <Compile Include="Services\IWriteOnlyRepository.cs" />
   </ItemGroup>
   <ItemGroup />
