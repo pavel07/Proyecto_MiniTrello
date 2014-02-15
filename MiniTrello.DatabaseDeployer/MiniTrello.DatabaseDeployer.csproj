@@ -70,6 +70,7 @@
     <None Include="App.config" />
     <None Include="local.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
