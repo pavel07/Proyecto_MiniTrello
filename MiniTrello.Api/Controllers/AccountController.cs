@@ -124,13 +124,13 @@ namespace MiniTrello.Api.Controllers
         }
 
         [AcceptVerbs("PUT")]
-        [PUT("{accesstoken}/changepassword")]
-        public HttpResponseMessage changePassword(string accesstoken, [FromBody] ChangePassModel model)
+        [PUT("{accesstoken}/restorepassword")]
+        public HttpResponseMessage restorePassword(string accesstoken, [FromBody] ChangePassModel model)
         {
             Sessions sessions =
                       _readOnlyRepository.Query<Sessions>(sessions1 => sessions1.Token == accesstoken).FirstOrDefault();
             Account account = sessions.User;
-            if (account.Password != model.oldPassword || model.newPassword != model.confirmnewPassword)
+            if (account.Email != model.Email || model.newPassword != model.confirmnewPassword)
             {
                 return new HttpResponseMessage(HttpStatusCode.NotModified);
             }

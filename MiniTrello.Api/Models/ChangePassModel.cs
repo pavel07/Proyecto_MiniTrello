@@ -7,7 +7,7 @@ namespace MiniTrello.Api.Models
 {
     public class ChangePassModel
     {
-        public string oldPassword { get; set; }
+        public string Email { get; set; }
         public string newPassword { get; set; }
         public string confirmnewPassword { get; set; }
     }
