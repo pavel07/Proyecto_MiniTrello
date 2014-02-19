@@ -19,19 +19,19 @@ namespace MiniTrello.Data
 
         public T First<T>(Expression<Func<T, bool>> query) where T : class, IEntity
         {
-            T firstOrDefault = _session.Query<T>().FirstOrDefault(query);
+            T firstOrDefault = _session.Query<T>().Where(x => x.IsArchived == false).FirstOrDefault(query);
             return firstOrDefault;
         }
 
         public T GetById<T>(long id) where T : class, IEntity
         {
             var item = _session.Get<T>(id);
-            return item;
+            return item.IsArchived ? null : item;
         }
 
         public IQueryable<T> Query<T>(Expression<Func<T, bool>> expression) where T : class, IEntity
         {
-            return _session.Query<T>().Where(expression);
+            return _session.Query<T>().Where(expression).Where(x => x.IsArchived == false);
         }
     }
 }

@@ -185,6 +185,15 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AccountControllerHelpers\RegisterValidator.cs" />
+    <Compile Include="Controllers\LaneController.cs" />
+    <Compile Include="Controllers\OrganizationController.cs" />
+    <Compile Include="Models\AccountUpdateModel.cs" />
+    <Compile Include="Models\AddBoardModel.cs" />
+    <Compile Include="Models\AddCardModel.cs" />
+    <Compile Include="Models\AddLaneModel.cs" />
+    <Compile Include="Models\AddOrganizationModel.cs" />
+    <Compile Include="Models\BoardModel.cs" />
+    <Compile Include="Models\AddMemberBoardModel.cs" />
     <Compile Include="Controllers\BoardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -195,6 +204,14 @@
     <Compile Include="Models\AccountLoginModel.cs" />
     <Compile Include="Models\AccountRegisterModel.cs" />
     <Compile Include="Models\AuthenticationModel.cs" />
+    <Compile Include="Models\ChangePassModel.cs" />
+    <Compile Include="Models\GetBoardModel.cs" />
+    <Compile Include="Models\MembersBoardModel.cs" />
+    <Compile Include="Models\MoveCardModel.cs" />
+    <Compile Include="Models\RemoveBoardModel.cs" />
+    <Compile Include="Models\RemoveCardModel.cs" />
+    <Compile Include="Models\RemoveLaneModel.cs" />
+    <Compile Include="Models\SessionsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
