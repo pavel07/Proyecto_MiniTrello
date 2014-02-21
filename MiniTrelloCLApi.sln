@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTrello.Domain", "MiTrello.Domain\MiniTrello.Domain.csproj", "{ECDF8611-C8A9-42B8-A412-0450EFAE0AEB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTrello.Domain", "MiniTrello.Domain\MiniTrello.Domain.csproj", "{ECDF8611-C8A9-42B8-A412-0450EFAE0AEB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTrello.Data", "MiniTrello.Data\MiniTrello.Data.csproj", "{A854B59C-A908-4926-8CC5-FB4277F3B4DB}"
 EndProject
