@@ -56,7 +56,11 @@ namespace MiniTrello.Api.Controllers
                     token = session.Token;
                 }
                 
-                return new AuthenticationModel(){Token = token};
+                return new AuthenticationModel()
+                {
+                    Token = token,
+                    AvailableTime = (session.ExpirationTime - DateTime.Now).Minutes
+                };
             }
             throw new BadRequestException(
                 "Usuario o clave incorrecto");
