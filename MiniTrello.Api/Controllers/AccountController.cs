@@ -41,6 +41,7 @@ namespace MiniTrello.Api.Controllers
             if (account != null)
             {
                 string token = "Iniciar Sesion Nuevamente";
+                TimeSpan availabletime = new TimeSpan();
                 var session =
                     _readOnlyRepository.Query<Sessions>(sessions1 => sessions1.User.Email == account.Email)
                         .OrderByDescending(x => x.ExpirationTime)
@@ -50,13 +51,16 @@ namespace MiniTrello.Api.Controllers
                     Sessions newsession = SetSessionsModel(account);
                     Sessions newsessionCreated = _writeOnlyRepository.Create(newsession);
                     if (newsessionCreated != null)
+                    {
                         token = newsessionCreated.Token;
+                        availabletime = (newsessionCreated.ExpirationTime.Subtract(newsessionCreated.LoginDate));
+                    }
                 }
                 else if (session.ExpirationTime > DateTime.Now)
                 {
                     token = session.Token;
+                    availabletime = (session.ExpirationTime.Subtract(DateTime.Now));
                 }
-                TimeSpan availabletime = (session.ExpirationTime.Subtract(DateTime.Now));
                 return new AuthenticationModel()
                 {
                     Token = token,
