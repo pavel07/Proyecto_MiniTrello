@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.SessionState;
+using AttributeRouting.Helpers;
 using AttributeRouting.Web.Http;
 using AutoMapper;
 using MiniTrello.Api.CustomExceptions;
@@ -55,11 +56,11 @@ namespace MiniTrello.Api.Controllers
                 {
                     token = session.Token;
                 }
-                
+                TimeSpan availabletime = (session.ExpirationTime.Subtract(DateTime.Now));
                 return new AuthenticationModel()
                 {
                     Token = token,
-                    AvailableTime = (session.ExpirationTime - DateTime.Now).Minutes
+                    AvailableTime = availabletime
                 };
             }
             throw new BadRequestException(
