@@ -32,6 +32,7 @@ namespace MiniTrello.Api.Controllers
             _registerValidator = registerValidator;
         }
 
+        [HttpPost]
         [POST("login")]
         public AuthenticationModel Login([FromBody] AccountLoginModel model)
         {
@@ -40,7 +41,7 @@ namespace MiniTrello.Api.Controllers
                     account1 => account1.Email == model.Email && account1.Password == model.Password);
             if (account != null)
             {
-                string token = "Iniciar Sesion Nuevamente";
+                string token = "";
                 TimeSpan availabletime = new TimeSpan();
                 var session =
                     _readOnlyRepository.Query<Sessions>(sessions1 => sessions1.User.Email == account.Email)
@@ -54,6 +55,10 @@ namespace MiniTrello.Api.Controllers
                     {
                         token = newsessionCreated.Token;
                         availabletime = (newsessionCreated.ExpirationTime.Subtract(newsessionCreated.LoginDate));
+                    }
+                    else
+                    {
+                        throw new BadRequestException("No se pudo crear la Session de Login");
                     }
                 }
                 else if (session.ExpirationTime > DateTime.Now)
@@ -85,7 +90,7 @@ namespace MiniTrello.Api.Controllers
         }
 
         [POST("register")]
-        public HttpResponseMessage Register([FromBody] AccountRegisterModel model)
+        public AccountRegisterResponseModel Register([FromBody] AccountRegisterModel model)
         {   
             var validateMessage = _registerValidator.Validate(model);
             if (!String.IsNullOrEmpty(validateMessage))
@@ -96,13 +101,13 @@ namespace MiniTrello.Api.Controllers
             Account accountCreated = _writeOnlyRepository.Create(account);
             if (accountCreated != null)
             {
-                return new HttpResponseMessage(HttpStatusCode.OK);
+                return new AccountRegisterResponseModel(accountCreated.Email, accountCreated.FirstName);
             }
             throw new BadRequestException("Hubo un error al guardar el usuario");
         }
 
         [POST("addorganization/{accesstoken}")]
-        public HttpResponseMessage AddOrganization(string accesstoken, [FromBody] AddOrganizationModel model)
+        public AddOrganizationResponseModel AddOrganization(string accesstoken, [FromBody] AddOrganizationModel model)
         {
             Sessions sessions =
                 _readOnlyRepository.Query<Sessions>(sessions1 => sessions1.Token == accesstoken).FirstOrDefault();
@@ -113,9 +118,9 @@ namespace MiniTrello.Api.Controllers
                 var organizationCreated = _writeOnlyRepository.Create(organization); 
                 account.AddOrganization(organizationCreated);
                 var accountUpdated = _writeOnlyRepository.Update(account);
-                return new HttpResponseMessage(HttpStatusCode.OK);
+                return new AddOrganizationResponseModel(organizationCreated.Title, "Organizacion Creada Exitosamente");
             }
-            return new HttpResponseMessage(HttpStatusCode.NotFound);
+            return new AddOrganizationResponseModel("Error:","No se pudo agregar la Organizacion");
         }
 
         [AcceptVerbs("PUT")]

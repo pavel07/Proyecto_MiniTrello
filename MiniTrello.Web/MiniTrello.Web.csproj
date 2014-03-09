@@ -144,10 +144,11 @@
     <Content Include="Content\app.less" />
     <Content Include="Content\variables.less" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\Controllers\controllers.js" />
-    <Content Include="Scripts\Controllers\controllers.spec.js">
-      <DependentUpon>controllers.js</DependentUpon>
-    </Content>
+    <Content Include="Scripts\Controllers\AboutController.js" />
+    <Content Include="Scripts\Controllers\AccountController.js" />
+    <Content Include="Scripts\Controllers\BoardController.js" />
+    <Content Include="Scripts\Controllers\ErrorController.js" />
+    <Content Include="Scripts\Controllers\HomeController.js" />
     <Content Include="Scripts\Directives\directives.js" />
     <Content Include="Scripts\Directives\directives.spec.js">
       <DependentUpon>directives.js</DependentUpon>
@@ -156,6 +157,8 @@
     <Content Include="Scripts\Filters\filters.spec.js">
       <DependentUpon>filters.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\Services\AccountServices.js" />
+    <Content Include="Scripts\Services\BoardServices.js" />
     <Content Include="Scripts\Services\services.js" />
     <Content Include="Scripts\Services\services.spec.js">
       <DependentUpon>services.js</DependentUpon>
@@ -505,6 +508,9 @@
     <Content Include="Views\_Layout.cshtml" />
     <Content Include="Views\_PageStart.cshtml" />
     <Content Include="Views\About.cshtml" />
+    <Content Include="Views\Register.cshtml" />
+    <Content Include="Views\Boards.cshtml" />
+    <Content Include="Views\BoardDetail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -5,33 +5,54 @@ angular.module('app', ['ui.router', 'app.filters', 'app.services', 'app.directiv
 
     // Gets executed during the provider registrations and configuration phase. Only providers and constants can be
     // injected here. This is to prevent accidental instantiation of services before they have been fully configured.
-    .config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) {
+    .config(['$stateProvider', '$locationProvider', '$httpProvider', function ($stateProvider, $locationProvider, $httpProvider) {
 
         // UI States, URL Routing & Mapping. For more info see: https://github.com/angular-ui/ui-router
         // ------------------------------------------------------------------------------------------------------------
+
+        $httpProvider.defaults.headers.common = { 'Content-Type': 'application/json' };
+        $httpProvider.defaults.headers.post = { 'Content-Type': 'application/json' };
+        $httpProvider.defaults.headers.put = { 'Content-Type': 'application/json' };
+        $httpProvider.defaults.headers.patch = { 'Content-Type': 'application/json' };
+        $httpProvider.defaults.headers.get = { 'Content-Type': 'application/json' };
 
         $stateProvider
             .state('home', {
                 url: '/',
                 templateUrl: '/views/index',
-                controller: 'HomeCtrl'
-
+                controller: 'HomeController'
             })
             .state('about', {
                 url: '/about',
                 templateUrl: '/views/about',
-                controller: 'AboutCtrl'
+                controller: 'AboutController'
             })
             .state('login', {
                 url: '/login',
                 layout: 'basic',
                 templateUrl: '/views/login',
-                controller: 'LoginCtrl'
+                controller: 'AccountController'
+            })
+            .state('register', {
+                url: '/register',
+                layout: 'basic',
+                templateUrl: '/views/register',
+                controller: 'AccountController'
+            })
+            .state('boards', {
+                url: '/boards',
+                templateUrl: '/views/boards',
+                controller: 'BoardController'
+            })
+            .state('boardDetail', {
+                url: '/board/:boardId',
+                templateUrl: '/views/boardDetail',
+                controller: 'BoardController'
             })
             .state('otherwise', {
                 url: '*path',
                 templateUrl: '/views/404',
-                controller: 'Error404Ctrl'
+                controller: 'ErrorController'
             });
 
         $locationProvider.html5Mode(true);
