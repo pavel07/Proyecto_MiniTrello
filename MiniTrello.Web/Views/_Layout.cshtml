@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title ng-bind="title">@(PageData["title"] ?? "AngularJS SPA Template for Visual Studio")</title>
+    <title ng-bind="title">@(PageData["title"] ?? "MiniTrello Web")</title>
     <meta name="description" content="@PageData["description"]">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     @Styles.Render("~/content/css/app")
@@ -42,8 +42,8 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a ng-hide="isLogged()" href="./login">Sign In</a>
-                    <a ng-show="isLogged()" href="#">Bienvenido Kehimer</a>
+                    <a ng-hide="isLogged()" href="./login">Login</a>
+                    <a ng-show="isLogged()" href="#">Bienvenido</a>
                 </li>
             </ul>
         </nav>
