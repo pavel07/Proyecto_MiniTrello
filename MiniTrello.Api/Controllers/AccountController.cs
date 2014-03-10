@@ -13,6 +13,7 @@ using MiniTrello.Api.CustomExceptions;
 using MiniTrello.Api.Models;
 using MiniTrello.Domain.Entities;
 using MiniTrello.Domain.Services;
+using RestSharp;
 
 namespace MiniTrello.Api.Controllers
 {
@@ -101,9 +102,29 @@ namespace MiniTrello.Api.Controllers
             Account accountCreated = _writeOnlyRepository.Create(account);
             if (accountCreated != null)
             {
+                SendSimpleMessage(accountCreated.FirstName, accountCreated.LastName, accountCreated.Email);
                 return new AccountRegisterResponseModel(accountCreated.Email, accountCreated.FirstName);
             }
             throw new BadRequestException("Hubo un error al guardar el usuario");
+        }
+
+        private static RestResponse SendSimpleMessage(string FirstName, string LastName, string Email)
+        {
+            RestClient client = new RestClient();
+            client.BaseUrl = "https://api.mailgun.net/v2";
+            client.Authenticator =
+                   new HttpBasicAuthenticator("api",
+                                              "key-64xe-jjly8m-3whcyvnm9fr2ivbjqel7");
+            RestRequest request = new RestRequest();
+            request.AddParameter("domain",
+                                "app13172.mailgun.org", ParameterType.UrlSegment);
+            request.Resource = "{domain}/messages";
+            request.AddParameter("from", "MiniTrello Web <postmaster@app13172.mailgun.org>");
+            request.AddParameter("to", FirstName + " " + LastName +" <"+Email+">");
+            request.AddParameter("subject", "Thank You for Sign Up | MiniTrello Web");
+            request.AddParameter("text", "Congratulations " + FirstName + ", you just has Sign Up in MiniTrello Web, go to Login Page and enjoy all ours Features.-");
+            request.Method = Method.POST;
+            return (RestResponse) client.Execute(request);
         }
 
         [POST("addorganization/{accesstoken}")]
