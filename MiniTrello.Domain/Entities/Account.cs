@@ -10,6 +10,8 @@ namespace MiniTrello.Domain.Entities
         public virtual string LastName { get; set; }
         public virtual string Email { get; set; }
         public virtual string Password { get; set; }
+        public virtual byte[] EncryptKey { get; set; }
+        public virtual byte[] EncryptIV { get; set; }
         public virtual bool IsArchived { get; set; }
 
         public virtual IEnumerable<Organization> Organizations

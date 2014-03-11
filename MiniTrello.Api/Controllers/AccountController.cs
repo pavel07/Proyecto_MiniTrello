@@ -13,6 +13,7 @@ using MiniTrello.Api.CustomExceptions;
 using MiniTrello.Api.Models;
 using MiniTrello.Domain.Entities;
 using MiniTrello.Domain.Services;
+using MiniTrello.Api.Controllers.AccountControllerHelpers;
 using RestSharp;
 
 namespace MiniTrello.Api.Controllers
@@ -37,9 +38,17 @@ namespace MiniTrello.Api.Controllers
         [POST("login")]
         public AuthenticationModel Login([FromBody] AccountLoginModel model)
         {
+            var encryptObj = new EncryptServices();
             var account =
                 _readOnlyRepository.First<Account>(
-                    account1 => account1.Email == model.Email && account1.Password == model.Password);
+                    account1 => account1.Email == model.Email);
+            if (account.Password !=
+                encryptObj.EncryptStringToBytes(model.Password, account.EncryptKey, account.EncryptIV))
+            {
+                throw new BadRequestException(
+                "Clave incorrecta: " + encryptObj.EncryptStringToBytes(model.Password, account.EncryptKey, account.EncryptIV));
+            }
+
             if (account != null)
             {
                 string token = "";
@@ -98,14 +107,27 @@ namespace MiniTrello.Api.Controllers
             {
                 throw new BadRequestException(validateMessage);
             }
-            Account account = _mappingEngine.Map<AccountRegisterModel, Account>(model);
-            Account accountCreated = _writeOnlyRepository.Create(account);
-            if (accountCreated != null)
+            var accountExist =
+                _readOnlyRepository.First<Account>(
+                    account1 => account1.Email == model.Email);
+            if (accountExist == null)
             {
-                SendSimpleMessage(accountCreated.FirstName, accountCreated.LastName, accountCreated.Email);
-                return new AccountRegisterResponseModel(accountCreated.Email, accountCreated.FirstName);
+                Account account = _mappingEngine.Map<AccountRegisterModel, Account>(model);
+                var encryptObj = new EncryptServices();
+                encryptObj.GenerateKeys();
+                account.Password = encryptObj.EncryptStringToBytes(account.Password, encryptObj.myRijndael.Key,
+                    encryptObj.myRijndael.IV);
+                account.EncryptKey = encryptObj.myRijndael.Key;
+                account.EncryptIV = encryptObj.myRijndael.IV;
+                Account accountCreated = _writeOnlyRepository.Create(account);
+                if (accountCreated != null)
+                {
+                    SendSimpleMessage(accountCreated.FirstName, accountCreated.LastName, accountCreated.Email);
+                    return new AccountRegisterResponseModel(accountCreated.Email, accountCreated.FirstName, 1);
+                }
+                throw new BadRequestException("Hubo un error al guardar el usuario");
             }
-            throw new BadRequestException("Hubo un error al guardar el usuario");
+            return new AccountRegisterResponseModel(model.Email, model.FirstName, 2);
         }
 
         private static RestResponse SendSimpleMessage(string FirstName, string LastName, string Email)
