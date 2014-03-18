@@ -27,10 +27,10 @@ angular.module('app.controllers')
                     .success(function(data, status, headers, config)
                         {
                             $window.sessionStorage.token = data.Token;
-                            $scope.loginresponsemodel = data;
-                            if (loginresponsemodel.status == 0) {
-                                toastr.error(loginresponsemodel.Token);
-                            }
+                            //$scope.loginresponsemodel = data;
+                            //if (loginresponsemodel.status == 0) {
+                              //  toastr.error(loginresponsemodel.Token);
+                            //}
                             $location.path('/boards');
                         })
                     .error(function(data, status, headers, config)
