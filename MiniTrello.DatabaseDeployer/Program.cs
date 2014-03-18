@@ -32,7 +32,7 @@ namespace MiniTrello.DatabaseDeployer
             {
                 dd.Seed(new List<IDataSeeder>
                 {
-                    new AccountSeeder(session)
+                    //new AccountSeeder(session)
                 });
                 tx.Commit();
             }

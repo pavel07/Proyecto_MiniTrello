@@ -87,7 +87,7 @@ namespace MiniTrello.Api.Controllers
         public MembersBoardModel showMembers(long boardId )
         {
             var board = _readOnlyRepository.GetById<Board>(boardId);
-            MembersBoardModel members = new MembersBoardModel();
+            var members = new MembersBoardModel();
 
             foreach (var account in board.Accounts)
             {

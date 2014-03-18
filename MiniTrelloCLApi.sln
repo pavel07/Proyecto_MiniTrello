@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTrello.Api", "MiniTrell
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTrello.Infrastructure", "MiniTrello.Infrastructure\MiniTrello.Infrastructure.csproj", "{A60BA21D-C58A-4846-BB43-FDCE2FC64A20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTrello.ApiWrapper", "MiniTrello.ApiWrapper\MiniTrello.ApiWrapper.csproj", "{E1387CF2-5244-4EC6-846A-088B0B67E324}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTrello.ApiWrapper.Specs", "MiniTrello.ApiWrapper.Specs\MiniTrello.ApiWrapper.Specs.csproj", "{E1387CF2-5244-4EC6-846A-088B0B67E324}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

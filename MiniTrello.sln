@@ -15,7 +15,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTrello.Api", "MiniTrell
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTrello.Infrastructure", "MiniTrello.Infrastructure\MiniTrello.Infrastructure.csproj", "{A60BA21D-C58A-4846-BB43-FDCE2FC64A20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTrello.Win8Phone", "MiniTrello.Win8Phone\MiniTrello.Win8Phone.csproj", "{E1387CF2-5244-4EC6-846A-088B0B67E324}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTrello.ApiWrapper", "MiniTrello.ApiWrapper\MiniTrello.ApiWrapper.csproj", "{E1387CF2-5244-4EC6-846A-088B0B67E324}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTrello.ApiWrapper.Specs", "MiniTrello.ApiWrapper.Specs\MiniTrello.ApiWrapper.Specs.csproj", "{8E6DA1F9-8281-46E4-817A-FA64696977B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTrello.Win8Phone", "MiniTrello.Win8Phone\MiniTrello.Win8Phone.csproj", "{7A2958F6-EE65-46C5-9D73-BCC4558BB90D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +51,22 @@ Global
 		{A60BA21D-C58A-4846-BB43-FDCE2FC64A20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A60BA21D-C58A-4846-BB43-FDCE2FC64A20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A60BA21D-C58A-4846-BB43-FDCE2FC64A20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1387CF2-5244-4EC6-846A-088B0B67E324}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1387CF2-5244-4EC6-846A-088B0B67E324}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1387CF2-5244-4EC6-846A-088B0B67E324}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{E1387CF2-5244-4EC6-846A-088B0B67E324}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1387CF2-5244-4EC6-846A-088B0B67E324}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1387CF2-5244-4EC6-846A-088B0B67E324}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{8E6DA1F9-8281-46E4-817A-FA64696977B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E6DA1F9-8281-46E4-817A-FA64696977B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E6DA1F9-8281-46E4-817A-FA64696977B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E6DA1F9-8281-46E4-817A-FA64696977B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A2958F6-EE65-46C5-9D73-BCC4558BB90D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A2958F6-EE65-46C5-9D73-BCC4558BB90D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A2958F6-EE65-46C5-9D73-BCC4558BB90D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7A2958F6-EE65-46C5-9D73-BCC4558BB90D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A2958F6-EE65-46C5-9D73-BCC4558BB90D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A2958F6-EE65-46C5-9D73-BCC4558BB90D}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

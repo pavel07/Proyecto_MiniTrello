@@ -2,6 +2,9 @@
     PageData["title"] = "MiniTrello Web | Login";
 }
 
+<link href="toastr.css" rel="stylesheet" />
+<script src="toastr.js"></script>
+
 <div class="row" ng-show="hasError">
     <p>{{errorMessage}}</p>
 </div>
@@ -17,12 +20,6 @@
                 </div>
                 <div class="form-group">
                     <input type="password" name="password" id="password" ng-model="loginModel.Password" class="form-control input-lg" placeholder="Password">
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn" data-color="info">Remember Me</button>
-                    <input type="checkbox" name="remember_me" id="remember_me" checked="checked" class="hidden">
-                    <a href="" class="btn btn-link pull-left">Forgot Password?</a>
-
                 </div>
                 <hr class="colorgraph">
                 <div class="row">

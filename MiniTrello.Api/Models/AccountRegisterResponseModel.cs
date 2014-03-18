@@ -19,6 +19,10 @@ namespace MiniTrello.Api.Models
                 Message = (FirstName + "! Lo sentimos mucho ya existe un usuario registrado con el correo " + Email);
             }
         }
+        public AccountRegisterResponseModel()
+        {
+            
+        }
         public string FirstName { get; set; }
         public string Message { get; set; }
     }

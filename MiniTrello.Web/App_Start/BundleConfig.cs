@@ -33,6 +33,7 @@ namespace App.MiniTrello.Web
                 "~/scripts/Controllers/AboutController.js",
                 "~/scripts/Controllers/ErrorController.js",
                 "~/scripts/Controllers/AccountController.js",
+                "~/scripts/toastr.js",
                 "~/scripts/Controllers/BoardController.js",
                 "~/scripts/app.js"));
 

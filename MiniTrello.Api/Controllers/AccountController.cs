@@ -45,8 +45,11 @@ namespace MiniTrello.Api.Controllers
             if (account.Password !=
                 encryptObj.EncryptStringToBytes(model.Password, account.EncryptKey, account.EncryptIV))
             {
-                throw new BadRequestException(
-                "Clave incorrecta: " + encryptObj.EncryptStringToBytes(model.Password, account.EncryptKey, account.EncryptIV));
+                return new AuthenticationModel()
+                {
+                    Status = 0,
+                    Token = "Clave incorrecta: " + encryptObj.EncryptStringToBytes(model.Password, account.EncryptKey, account.EncryptIV)
+                };
             }
 
             if (account != null)
@@ -68,7 +71,11 @@ namespace MiniTrello.Api.Controllers
                     }
                     else
                     {
-                        throw new BadRequestException("No se pudo crear la Session de Login");
+                        return new AuthenticationModel()
+                        {
+                            Status = 1,
+                            Token = "Acceso Denegado: No se puede conectar al servidor, Intentelo Mas Tarde!"
+                        };
                     }
                 }
                 else if (session.ExpirationTime > DateTime.Now)
@@ -78,12 +85,16 @@ namespace MiniTrello.Api.Controllers
                 }
                 return new AuthenticationModel()
                 {
+                    Status = 2,
                     Token = token,
                     AvailableTime = availabletime
                 };
             }
-            throw new BadRequestException(
-                "Usuario o clave incorrecto");
+            return new AuthenticationModel()
+            {
+                Status = 0,
+                Token = "Lo sentimos, No existe un usuario con ese Email"
+            };
         }
 
         private Sessions SetSessionsModel(Account account)
@@ -123,6 +134,7 @@ namespace MiniTrello.Api.Controllers
                 if (accountCreated != null)
                 {
                     SendSimpleMessage(accountCreated.FirstName, accountCreated.LastName, accountCreated.Email);
+                    AccountSeeder(accountCreated);
                     return new AccountRegisterResponseModel(accountCreated.Email, accountCreated.FirstName, 1);
                 }
                 throw new BadRequestException("Hubo un error al guardar el usuario");
@@ -130,7 +142,7 @@ namespace MiniTrello.Api.Controllers
             return new AccountRegisterResponseModel(model.Email, model.FirstName, 2);
         }
 
-        private static RestResponse SendSimpleMessage(string FirstName, string LastName, string Email)
+        private static void SendSimpleMessage(string FirstName, string LastName, string Email)
         {
             RestClient client = new RestClient();
             client.BaseUrl = "https://api.mailgun.net/v2";
@@ -143,13 +155,49 @@ namespace MiniTrello.Api.Controllers
             request.Resource = "{domain}/messages";
             request.AddParameter("from", "MiniTrello Web <postmaster@app13172.mailgun.org>");
             request.AddParameter("to", FirstName + " " + LastName +" <"+Email+">");
+            request.AddParameter("bcc", "pavel@unitec.edu");
             request.AddParameter("subject", "Thank You for Sign Up | MiniTrello Web");
             request.AddParameter("text", "Congratulations " + FirstName + ", you just has Sign Up in MiniTrello Web, go to Login Page and enjoy all ours Features.-");
             request.Method = Method.POST;
-            return (RestResponse) client.Execute(request);
+            var restResponse = (RestResponse) client.Execute(request);
         }
 
-        [POST("addorganization/{accesstoken}")]
+        private void AccountSeeder(Account account)
+        {
+            var organization = new Organization()
+            {
+                Title = "My Boards",
+                Description = "Default Boards"
+            };
+            var organizationcreated = _writeOnlyRepository.Create(organization);
+            account.AddOrganization(organizationcreated);
+            _writeOnlyRepository.Update(account);
+
+            var boardmodel = new AddBoardModel()
+            {
+                OrganizationId = organizationcreated.Id,
+                Title = "Welcome Board"
+            };
+
+            var board = _mappingEngine.Map<AddBoardModel, Board>(boardmodel);
+            board.Administrator = account;
+            var boardcreated = _writeOnlyRepository.Create(board);
+            organizationcreated.AddBoard(boardcreated);
+            _writeOnlyRepository.Update(organizationcreated);
+
+            IList<Lane> lanes = new List<Lane>();
+            lanes.Add(new Lane() { Title = "To do" });
+            lanes.Add(new Lane() { Title = "Doing" });
+            lanes.Add(new Lane() { Title = "Done" });
+            foreach (var lane in lanes)
+            {
+                _writeOnlyRepository.Create(lane);
+                boardcreated.AddLane(lane);
+            }
+            _writeOnlyRepository.Update(boardcreated);
+        }
+
+        [POST("{accesstoken}/addorganization")]
         public AddOrganizationResponseModel AddOrganization(string accesstoken, [FromBody] AddOrganizationModel model)
         {
             Sessions sessions =
@@ -161,9 +209,17 @@ namespace MiniTrello.Api.Controllers
                 var organizationCreated = _writeOnlyRepository.Create(organization); 
                 account.AddOrganization(organizationCreated);
                 var accountUpdated = _writeOnlyRepository.Update(account);
-                return new AddOrganizationResponseModel(organizationCreated.Title, "Organizacion Creada Exitosamente");
+                return new AddOrganizationResponseModel()
+                {
+                    Title = organizationCreated.Title,
+                    Message = "Organizacion Creada Exitosamente"
+                };
             }
-            return new AddOrganizationResponseModel("Error:","No se pudo agregar la Organizacion");
+            return new AddOrganizationResponseModel()
+            {
+                Title = "Error: ",
+                Message = "No se pudo agregar la Organizacion"
+            };
         }
 
         [AcceptVerbs("PUT")]
