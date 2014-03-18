@@ -42,18 +42,17 @@ namespace MiniTrello.Api.Controllers
             var account =
                 _readOnlyRepository.First<Account>(
                     account1 => account1.Email == model.Email);
-            if (account.Password !=
-                encryptObj.EncryptStringToBytes(model.Password, account.EncryptKey, account.EncryptIV))
-            {
-                return new AuthenticationModel()
-                {
-                    Status = 0,
-                    Token = "Clave incorrecta: " + encryptObj.EncryptStringToBytes(model.Password, account.EncryptKey, account.EncryptIV)
-                };
-            }
-
             if (account != null)
             {
+                if (account.Password !=
+                encryptObj.EncryptStringToBytes(model.Password, account.EncryptKey, account.EncryptIV))
+                {
+                    return new AuthenticationModel()
+                    {
+                        Status = 0,
+                        Token = "Clave incorrecta: " + encryptObj.EncryptStringToBytes(model.Password, account.EncryptKey, account.EncryptIV)
+                    };
+                }
                 string token = "";
                 TimeSpan availabletime = new TimeSpan();
                 var session =
