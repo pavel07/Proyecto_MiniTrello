@@ -14,7 +14,8 @@ namespace App.MiniTrello.Web
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new StyleBundle("~/content/css/app").Include("~/content/app.css"));
+            bundles.Add(new StyleBundle("~/content/css/app").Include("~/content/app.css","~/content/toastr.css","~/content/bootstrap.css",
+                "~/content/font-awesome.css"));
 
             //bundles.Add(new ScriptBundle("~/js/jquery").Include("~/scripts/vendor/jquery-{version}.js"));
 
@@ -24,6 +25,8 @@ namespace App.MiniTrello.Web
 
             bundles.Add(new ScriptBundle("~/js/app").Include(
                 "~/scripts/vendor/angular-ui-router.js",
+                "~/scripts/vendor/bootstrap.js",
+                "~/scripts/vendor/bootstrap.min.js",
                 "~/scripts/Filters/filters.js",
                 "~/scripts/Services/services.js",
                 "~/scripts/Services/AccountServices.js",
@@ -34,6 +37,7 @@ namespace App.MiniTrello.Web
                 "~/scripts/Controllers/ErrorController.js",
                 "~/scripts/Controllers/AccountController.js",
                 "~/scripts/toastr.js",
+                "~/scripts/toastr.min.js",
                 "~/scripts/Controllers/BoardController.js",
                 "~/scripts/app.js"));
 

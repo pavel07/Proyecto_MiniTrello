@@ -15,39 +15,7 @@
 
     <header ng-controller="AccountController" class="navbar navbar-inverse" role="banner" ng-if=" !layout ">
         @* The 'layout' property is set inside the app.run(..) method on '$stateChangeSuccess' *@
-    <div class="container">
-        <div class="navbar-header">
-            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".spa-navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="./" class="navbar-brand">MiniTrello Web</a>
-        </div>
-        <nav class="collapse navbar-collapse spa-navbar-collapse" role="navigation">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="./boards">Boards</a>
-                </li>
-                <li>
-                    <a href="./organizations">Organization</a>
-                </li>
-                <li>
-                    <a href="./board/new">New Board</a>
-                </li>
-                <li>
-                    <a href="./organization/new">New Organization</a>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a ng-hide="isLogged()" href="./login">Login</a>
-                    <a ng-show="isLogged()" href="#">Bienvenido</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+    
 </header>
 
 <div id="ui-view" class="container" ui-view data-tmpl-url="@Request.RequestContext.RouteData.DataTokens["templateUrl"]">

@@ -26,12 +26,21 @@ angular.module('app.controllers')
                     .login($scope.loginModel)
                     .success(function(data, status, headers, config)
                         {
-                            $window.sessionStorage.token = data.Token;
-                            //$scope.loginresponsemodel = data;
-                            //if (loginresponsemodel.status == 0) {
-                              //  toastr.error(loginresponsemodel.Token);
-                            //}
-                            $location.path('/boards');
+                            $window.sessionStorage.token = data.Token
+                            if (data.Status == 0) {
+                                toastr.error(data.Token, "Error", {
+                                    "closeButton": true,
+                                    "positionClass": "toast-bottom-full-width",
+                                    "showEasing": "swing",
+                                    "hideEasing": "swing",
+                                    "showMethod": "slideDown",
+                                    "hideMethod": "fadeOut"
+                                });
+                            }
+                            if (data.Status == 2) {
+                                toastr.success("Bienvenido a MiniTrello | Web");
+                                $location.path('/boards');
+                            }
                         })
                     .error(function(data, status, headers, config)
                         {

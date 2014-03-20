@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mime;
+using System.Reflection;
+using System.Resources;
+using System.Security.Policy;
 using System.Web;
 using System.Web.Http;
 using System.Web.SessionState;
@@ -11,6 +17,7 @@ using AttributeRouting.Web.Http;
 using AutoMapper;
 using MiniTrello.Api.CustomExceptions;
 using MiniTrello.Api.Models;
+using MiniTrello.Api.Properties;
 using MiniTrello.Domain.Entities;
 using MiniTrello.Domain.Services;
 using MiniTrello.Api.Controllers.AccountControllerHelpers;
@@ -152,11 +159,15 @@ namespace MiniTrello.Api.Controllers
             request.AddParameter("domain",
                                 "app13172.mailgun.org", ParameterType.UrlSegment);
             request.Resource = "{domain}/messages";
-            request.AddParameter("from", "MiniTrello Web <postmaster@app13172.mailgun.org>");
+            request.AddParameter("from", "MiniTrello Web <minitrelloweb@app13172.mailgun.org>");
             request.AddParameter("to", FirstName + " " + LastName +" <"+Email+">");
             request.AddParameter("bcc", "pavel@unitec.edu");
-            request.AddParameter("subject", "Thank You for Sign Up | MiniTrello Web");
-            request.AddParameter("text", "Congratulations " + FirstName + ", you just has Sign Up in MiniTrello Web, go to Login Page and enjoy all ours Features.-");
+            request.AddParameter("subject", "Thank You for Signing Up | MiniTrello Web");
+            //request.AddParameter("text", "Congratulations " + FirstName + ", you have just Signed Up in MiniTrello Web, go to Login Page and enjoy all ours Features. \n\n Best Regards.-");
+            string message = "Congratulations " + FirstName +
+                             ", you have just Signed Up in MiniTrello Web, go to Login Page (http://minitrelloclweb.apphb.com/login) and enjoy all ours Features.";
+            request.AddParameter("html", "<html>"+message+"<BR><BR>Best regards.<BR><BR>"+"<img src=\"cid:Mini.png\"><BR><BR>"+"Programacion IV, 2014</html>");
+            request.AddFile("inline", HttpContext.Current.Server.MapPath("~/Resources/Mini.png"));
             request.Method = Method.POST;
             var restResponse = (RestResponse) client.Execute(request);
         }
