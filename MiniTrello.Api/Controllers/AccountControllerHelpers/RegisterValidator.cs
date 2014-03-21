@@ -15,6 +15,7 @@ namespace MiniTrello.Api.Controllers.AccountControllerHelpers
                 return "Claves no son iguales";
             return "";
         }
+
         public static bool IsValidEmail(string strMailAddress)
         {
             // Return true if strMailAddress is invalid e-mail format.

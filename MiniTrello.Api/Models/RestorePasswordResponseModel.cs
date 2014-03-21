@@ -5,8 +5,9 @@ using System.Web;
 
 namespace MiniTrello.Api.Models
 {
-    public class ChangePassModel
+    public class RestorePasswordResponseModel
     {
-        public string Email { get; set; }
+        public string Message { get; set; }
+        public int Status { get; set; }
     }
 }

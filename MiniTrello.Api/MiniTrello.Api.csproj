@@ -190,6 +190,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AccountControllerHelpers\EncryptServices.cs" />
     <Compile Include="Controllers\AccountControllerHelpers\RegisterValidator.cs" />
+    <Compile Include="Controllers\AccountControllerHelpers\RestorePassEmailValidator.cs" />
     <Compile Include="Controllers\LaneController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Models\AccountRegisterResponseModel.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="Models\RemoveBoardModel.cs" />
     <Compile Include="Models\RemoveCardModel.cs" />
     <Compile Include="Models\RemoveLaneModel.cs" />
+    <Compile Include="Models\RestorePasswordResponseModel.cs" />
     <Compile Include="Models\SessionsModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

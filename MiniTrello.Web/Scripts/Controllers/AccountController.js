@@ -19,6 +19,7 @@ angular.module('app.controllers')
 
             $scope.loginModel = { Email: '', Password: '' };
             $scope.registerModel = { Email: '', Password: '', FirstName: '', LastName: '', ConfirmPassword: '' };
+            $scope.restoreModel = { Email: '' };
 
             // TODO: Authorize a user
             $scope.login = function() {
@@ -59,6 +60,7 @@ angular.module('app.controllers')
 
             $scope.goToLogin = function() {
                 $location.path('/login');
+                
             };
 
 
@@ -67,12 +69,47 @@ angular.module('app.controllers')
                     .register($scope.registerModel)
                     .success(function(data, status, headers, config) {
                         console.log(data);
-                        $scope.goToLogin();
+                        if (data.Status == 0) {
+                            toastr.error(data.Message, "Error", {
+                                "closeButton": true,
+                                "positionClass": "toast-bottom-full-width",
+                                "showEasing": "swing",
+                                "hideEasing": "swing",
+                                "showMethod": "slideDown",
+                                "hideMethod": "fadeOut"
+                            });
+                        }
+                        if (data.Status == 1) {
+                            toastr.warning(data.Message);
+                        }
+                        if (data.Status == 2) {
+                            toastr.success(data.Message);
+                            $scope.goToLogin();
+                        }
                     })
                     .error(function(data, status, headers, config) {
                         console.log(data);
                     });
             };
+
+            $scope.restorePassword = function() {
+                AccountServices.restorePassword($scope.restoreModel)
+                    .success(function(data, status, headers, config) {
+                        console.log(data);
+                        if (data.Status == 1) {
+                            toastr.warning(data.Message);
+                        }
+                        if (data.Status == 2) {
+                            toastr.success(data.Message);
+                            $scope.goToLogin();
+                        }
+                    })
+                    .error(function (data, status, headers, config) {
+                        console.log(data);
+                    });
+           
+            };
+    
 
         $scope.$on('$viewContentLoaded', function () {
             $window.ga('send', 'pageview', { 'page': $location.path(), 'title': $scope.$root.title });

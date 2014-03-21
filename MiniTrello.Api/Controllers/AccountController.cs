@@ -31,14 +31,16 @@ namespace MiniTrello.Api.Controllers
         readonly IWriteOnlyRepository _writeOnlyRepository;
         readonly IMappingEngine _mappingEngine;
         readonly IRegisterValidator<AccountRegisterModel> _registerValidator;
+        readonly IRegisterValidator<ChangePassModel> _restoreValidator;
         
         public AccountController(IReadOnlyRepository readOnlyRepository, IWriteOnlyRepository writeOnlyRepository,
-            IMappingEngine mappingEngine, IRegisterValidator<AccountRegisterModel> registerValidator)
+            IMappingEngine mappingEngine, IRegisterValidator<AccountRegisterModel> registerValidator, IRegisterValidator<ChangePassModel> restoresValidator)
         {
             _readOnlyRepository = readOnlyRepository;
             _writeOnlyRepository = writeOnlyRepository;
             _mappingEngine = mappingEngine;
             _registerValidator = registerValidator;
+            _restoreValidator = restoresValidator;
         }
 
         [HttpPost]
@@ -122,7 +124,11 @@ namespace MiniTrello.Api.Controllers
             var validateMessage = _registerValidator.Validate(model);
             if (!String.IsNullOrEmpty(validateMessage))
             {
-                throw new BadRequestException(validateMessage);
+                return new AccountRegisterResponseModel()
+                {
+                    Message = validateMessage,
+                    Status = 1
+                };
             }
             var accountExist =
                 _readOnlyRepository.First<Account>(
@@ -141,11 +147,15 @@ namespace MiniTrello.Api.Controllers
                 {
                     SendSimpleMessage(accountCreated.FirstName, accountCreated.LastName, accountCreated.Email);
                     AccountSeeder(accountCreated);
-                    return new AccountRegisterResponseModel(accountCreated.Email, accountCreated.FirstName, 1);
+                    return new AccountRegisterResponseModel(accountCreated.Email, accountCreated.FirstName, 2);
                 }
-                throw new BadRequestException("Hubo un error al guardar el usuario");
+                return new AccountRegisterResponseModel()
+                {
+                    Message = "Hubo un error al guardar el usuario",
+                    Status = 0
+                };
             }
-            return new AccountRegisterResponseModel(model.Email, model.FirstName, 2);
+            return new AccountRegisterResponseModel(model.Email, model.FirstName, 0);
         }
 
         private static void SendSimpleMessage(string FirstName, string LastName, string Email)
@@ -247,19 +257,69 @@ namespace MiniTrello.Api.Controllers
         }
 
         [AcceptVerbs("PUT")]
-        [PUT("{accesstoken}/restorepassword")]
-        public HttpResponseMessage restorePassword(string accesstoken, [FromBody] ChangePassModel model)
+        [PUT("login")]
+        public RestorePasswordResponseModel restorePassword([FromBody] ChangePassModel model)
         {
-            Sessions sessions =
-                      _readOnlyRepository.Query<Sessions>(sessions1 => sessions1.Token == accesstoken).FirstOrDefault();
-            Account account = sessions.User;
-            if (account.Email != model.Email || model.newPassword != model.confirmnewPassword)
+            var validateMessage = _restoreValidator.Validate(model);
+            if (!String.IsNullOrEmpty(validateMessage))
             {
-                return new HttpResponseMessage(HttpStatusCode.NotModified);
+                return new RestorePasswordResponseModel()
+                {
+                    Message = validateMessage,
+                    Status = 1
+                };
             }
-            account.Password = model.newPassword;
-            _writeOnlyRepository.Update(account);
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            Account account =
+                _readOnlyRepository.First<Account>(
+                    account1 => account1.Email == model.Email);
+            
+            if (account != null)
+            {
+                var encryptObj = new EncryptServices();
+                encryptObj.GenerateKeys();
+                var newPassword = Guid.NewGuid().ToString();
+                account.Password = encryptObj.EncryptStringToBytes(newPassword, encryptObj.myRijndael.Key,
+                    encryptObj.myRijndael.IV);
+                account.EncryptKey = encryptObj.myRijndael.Key;
+                account.EncryptIV = encryptObj.myRijndael.IV;
+                _writeOnlyRepository.Update(account);
+                SendRestoreMessage(account.FirstName,account.FirstName,account.Email,newPassword);
+                return new RestorePasswordResponseModel()
+                {
+                    Message = "Se acaba de enviar un mensaje al correo indicado, favor seguir las instrucciones",
+                    Status = 2
+                };
+            }
+           
+            return new RestorePasswordResponseModel()
+            {
+                Message = "No existe ningun usuario registrado en MiniTrello | Web con ese correo",
+                Status = 1
+            };
+        }
+
+        private static void SendRestoreMessage(string FirstName, string LastName, string Email, string tempPass)
+        {
+            RestClient client = new RestClient();
+            client.BaseUrl = "https://api.mailgun.net/v2";
+            client.Authenticator =
+                   new HttpBasicAuthenticator("api",
+                                              "key-64xe-jjly8m-3whcyvnm9fr2ivbjqel7");
+            RestRequest request = new RestRequest();
+            request.AddParameter("domain",
+                                "app13172.mailgun.org", ParameterType.UrlSegment);
+            request.Resource = "{domain}/messages";
+            request.AddParameter("from", "MiniTrello Web <minitrelloweb@app13172.mailgun.org>");
+            request.AddParameter("to", FirstName + " " + LastName + " <" + Email + ">");
+            request.AddParameter("bcc", "pavel@unitec.edu");
+            request.AddParameter("subject", "Restore Password | MiniTrello Web");
+            //request.AddParameter("text", "Congratulations " + FirstName + ", you have just Signed Up in MiniTrello Web, go to Login Page and enjoy all ours Features. \n\n Best Regards.-");
+            string message = "Dear " + FirstName +
+                             ", please sign in at your MiniTrello | Web account with the password: "+tempPass+"<BR>Remember go to Update Profile for change to your own password.-";
+            request.AddParameter("html", "<html>" + message + "<BR><BR>Best regards.<BR><BR>" + "<img src=\"cid:Mini.png\"><BR><BR>" + "Programacion IV, 2014</html>");
+            request.AddFile("inline", HttpContext.Current.Server.MapPath("~/Resources/Mini.png"));
+            request.Method = Method.POST;
+            var restResponse = (RestResponse)client.Execute(request);
         }
     }
 }

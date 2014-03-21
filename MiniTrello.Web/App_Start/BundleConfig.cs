@@ -27,6 +27,8 @@ namespace App.MiniTrello.Web
                 "~/scripts/vendor/angular-ui-router.js",
                 "~/scripts/vendor/bootstrap.js",
                 "~/scripts/vendor/bootstrap.min.js",
+                "~/scripts/vendor/jquery.easing.min.js",
+                "~/scripts/vendor/scrolling-nav.js",
                 "~/scripts/Filters/filters.js",
                 "~/scripts/Services/services.js",
                 "~/scripts/Services/AccountServices.js",

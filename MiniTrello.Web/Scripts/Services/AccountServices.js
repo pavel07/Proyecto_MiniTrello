@@ -17,6 +17,9 @@ angular.module('app.services',[]).factory('AccountServices', ['$http', function 
         return $http.post(baseUrl + '/register', model);
     };
 
+    account.restorePassword = function (model) {
+        return $http.put(baseUrl + '/login', model);
+    };
     return account;
 
 }]);

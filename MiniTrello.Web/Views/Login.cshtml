@@ -2,34 +2,104 @@
     PageData["title"] = "MiniTrello Web | Login";
 }
 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>MiniTrello Web | Login</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom CSS -->
+    <link href="~/Content/scrolling-nav.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <a href="/" class="navbar-brand"> <img src="~/Images/Mini.png"></a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="login" class="Login">
+        <div class="container">
+            <div class="row" style="margin-top: 10em">
+                <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+                    <form role="form">
+                        <fieldset>
+                            <h2>Please Sign In</h2>
+                            <hr class="colorgraph">
+                            <div class="form-group">
+                                <input type="email" name="email" ng-model="loginModel.Email" id="email" class="form-control input-lg" placeholder="Email Address">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" id="password" ng-model="loginModel.Password" class="form-control input-lg" placeholder="Password">
+                            </div>
+                            <hr class="colorgraph">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <button ng-click="login()" class="btn btn-lg btn-success btn-block">Login</button>
+                                </div>
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <button ng-click="goToRegister()" class="btn btn-lg btn-primary btn-block">Register</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-8 col-sm-9 col-md-9">
+                                    <a href="#" data-toggle="modal" data-target="#t_and_c_m">Forgot Password?</a>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!-- Core JavaScript Files -->
+    <script src="~/Scripts/vendor/jquery-2.0.3.js"></script>
+    <script src="~/Scripts/vendor/bootstrap.min.js"></script>
+    <script src="~/Scripts/vendor/jquery.easing.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="~/Scripts/vendor/scrolling-nav.js"></script>
+
+</body>
+
+</html>
+
+<div class="modal fade" id="t_and_c_m" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel"><strong class="label label-primary">Restore Account Password</strong></h4>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="email" name="email" ng-model="restorePassModel.Email" id="email" class="form-control input-lg" placeholder="Email Address">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4">
+                            <button ng-click="restorePassword()" class="btn btn-lg btn-success btn-block">Send Email</button>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4">
+                            <button ng-click="goToLogin()" class="btn btn-lg btn-primary btn-block" data-dismiss="modal" aria-hidden="true">Back to Login</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <div class="row" ng-show="hasError">
     <p>{{errorMessage}}</p>
 </div>
-
-
-    <div class="row" style="margin-top: 20px">
-        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-            <form role="form">
-                <fieldset>
-                    <h2>Please Sign In</h2>
-                    <hr class="colorgraph">
-                    <div class="form-group">
-                        <input type="email" name="email" ng-model="loginModel.Email" id="email" class="form-control input-lg" placeholder="Email Address">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" name="password" id="password" ng-model="loginModel.Password" class="form-control input-lg" placeholder="Password">
-                    </div>
-                    <hr class="colorgraph">
-                    <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-6">
-                            <button ng-click="login()" class="btn btn-lg btn-success btn-block">Login</button>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6">
-                            <button ng-click="goToRegister()" class="btn btn-lg btn-primary btn-block">Register</button>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
-        </div>
-    </div>}

@@ -23,6 +23,7 @@ namespace MiniTrello.Api
             _containerBuilder.RegisterType<ReadOnlyRepository>().As<IReadOnlyRepository>();
             _containerBuilder.RegisterType<WriteOnlyRepository>().As<IWriteOnlyRepository>();
             _containerBuilder.RegisterType<RegisterValidator>().As<IRegisterValidator<AccountRegisterModel>>();
+            _containerBuilder.RegisterType<RestorePassEmailValidator>().As<IRegisterValidator<ChangePassModel>>();
         }
     }
 }
