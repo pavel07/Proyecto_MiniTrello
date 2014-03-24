@@ -160,6 +160,7 @@
     <Content Include="Images\doge.png" />
     <Content Include="Images\intro-bg.jpg" />
     <Content Include="Images\ipad.png" />
+    <Content Include="Images\load.gif" />
     <Content Include="Images\Mini.png" />
     <Content Include="Images\phones.png" />
     <Content Include="Scripts\Controllers\AboutController.js" />
@@ -167,6 +168,7 @@
     <Content Include="Scripts\Controllers\BoardController.js" />
     <Content Include="Scripts\Controllers\ErrorController.js" />
     <Content Include="Scripts\Controllers\HomeController.js" />
+    <Content Include="Scripts\Controllers\OrganizationController.js" />
     <Content Include="Scripts\Directives\directives.js" />
     <Content Include="Scripts\Directives\directives.spec.js">
       <DependentUpon>directives.js</DependentUpon>
@@ -177,6 +179,7 @@
     </Content>
     <Content Include="Scripts\Services\AccountServices.js" />
     <Content Include="Scripts\Services\BoardServices.js" />
+    <Content Include="Scripts\Services\OrganizationServices.js" />
     <Content Include="Scripts\Services\services.js" />
     <Content Include="Scripts\Services\services.spec.js">
       <DependentUpon>services.js</DependentUpon>
@@ -540,15 +543,17 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Login.cshtml" />
+    <Content Include="Views\login.cshtml" />
     <Content Include="Views\Index.cshtml" />
     <Content Include="Views\404.cshtml" />
     <Content Include="Views\_Layout.cshtml" />
     <Content Include="Views\_PageStart.cshtml" />
     <Content Include="Views\About.cshtml" />
-    <Content Include="Views\Register.cshtml" />
+    <Content Include="Views\register.cshtml" />
     <Content Include="Views\Boards.cshtml" />
     <Content Include="Views\BoardDetail.cshtml" />
+    <Content Include="Views\LoadingPage.cshtml" />
+    <Content Include="Views\organizations.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

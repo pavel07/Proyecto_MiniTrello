@@ -60,7 +60,18 @@
     <Reference Include="AutoMapper.Net4">
       <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
+    <Reference Include="FizzWare.NBuilder">
+      <HintPath>..\packages\NBuilder.3.0.1.1\lib\FizzWare.NBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NHibernate, Version=3.3.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHibernate.3.3.3.4001\lib\Net35\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
     </Reference>
@@ -193,6 +204,7 @@
     <Compile Include="Controllers\AccountControllerHelpers\RestorePassEmailValidator.cs" />
     <Compile Include="Controllers\LaneController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
+    <Compile Include="Models\AccountBoardModel.cs" />
     <Compile Include="Models\AccountRegisterResponseModel.cs" />
     <Compile Include="Models\AccountUpdateModel.cs" />
     <Compile Include="Models\AddBoardModel.cs" />
@@ -214,6 +226,7 @@
     <Compile Include="Models\AuthenticationModel.cs" />
     <Compile Include="Models\ChangePassModel.cs" />
     <Compile Include="Models\GetBoardModel.cs" />
+    <Compile Include="Models\GetOrganizationsModel.cs" />
     <Compile Include="Models\MembersBoardModel.cs" />
     <Compile Include="Models\MoveCardModel.cs" />
     <Compile Include="Models\RemoveBoardModel.cs" />

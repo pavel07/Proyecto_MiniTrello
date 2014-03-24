@@ -21,6 +21,8 @@ using MiniTrello.Api.Properties;
 using MiniTrello.Domain.Entities;
 using MiniTrello.Domain.Services;
 using MiniTrello.Api.Controllers.AccountControllerHelpers;
+using NHibernate;
+using FizzWare.NBuilder;
 using RestSharp;
 
 namespace MiniTrello.Api.Controllers
@@ -48,9 +50,10 @@ namespace MiniTrello.Api.Controllers
         public AuthenticationModel Login([FromBody] AccountLoginModel model)
         {
             var encryptObj = new EncryptServices();
-            var account =
+            Account account =
                 _readOnlyRepository.First<Account>(
                     account1 => account1.Email == model.Email);
+            
             if (account != null)
             {
                 if (account.Password !=
@@ -59,7 +62,7 @@ namespace MiniTrello.Api.Controllers
                     return new AuthenticationModel()
                     {
                         Status = 0,
-                        Token = "Clave incorrecta: " + encryptObj.EncryptStringToBytes(model.Password, account.EncryptKey, account.EncryptIV)
+                        Token = "Clave incorrecta"
                     };
                 }
                 string token = "";
@@ -142,11 +145,36 @@ namespace MiniTrello.Api.Controllers
                     encryptObj.myRijndael.IV);
                 account.EncryptKey = encryptObj.myRijndael.Key;
                 account.EncryptIV = encryptObj.myRijndael.IV;
+                
+                //AccountSeeder(accountCreated);
+                var initboard = new Board() { Title = "Welcome Board"};
+                var lanes = Builder<Lane>.CreateListOfSize(3).Build();
+                lanes[0].Title = "To Do";
+                lanes[1].Title = "Doing";
+                lanes[2].Title = "Done";
+                foreach (var lane in lanes)
+                {
+                    _writeOnlyRepository.Create(lane);
+                }
+                initboard.AddLane(lanes[0]);
+                initboard.AddLane(lanes[1]);
+                initboard.AddLane(lanes[2]);
+                _writeOnlyRepository.Create(initboard);
+
+
+                var organization = new Organization() { Title = "My Boards", Description = "Default Organization" };
+                organization.AddBoard(initboard);
+                _writeOnlyRepository.Create(organization);
+
+                account.AddOrganization(organization);
                 Account accountCreated = _writeOnlyRepository.Create(account);
+
+                //initboard.Administrator = accountCreated;
+                //_writeOnlyRepository.Update(initboard);
+                
                 if (accountCreated != null)
                 {
-                    SendSimpleMessage(accountCreated.FirstName, accountCreated.LastName, accountCreated.Email);
-                    AccountSeeder(accountCreated);
+                    //SendSimpleMessage(accountCreated.FirstName, accountCreated.LastName, accountCreated.Email, model.Password);
                     return new AccountRegisterResponseModel(accountCreated.Email, accountCreated.FirstName, 2);
                 }
                 return new AccountRegisterResponseModel()
@@ -158,7 +186,7 @@ namespace MiniTrello.Api.Controllers
             return new AccountRegisterResponseModel(model.Email, model.FirstName, 0);
         }
 
-        private static void SendSimpleMessage(string FirstName, string LastName, string Email)
+        private static void SendSimpleMessage(string FirstName, string LastName, string Email, string Password)
         {
             RestClient client = new RestClient();
             client.BaseUrl = "https://api.mailgun.net/v2";
@@ -176,7 +204,7 @@ namespace MiniTrello.Api.Controllers
             //request.AddParameter("text", "Congratulations " + FirstName + ", you have just Signed Up in MiniTrello Web, go to Login Page and enjoy all ours Features. \n\n Best Regards.-");
             string message = "Congratulations " + FirstName +
                              ", you have just Signed Up in MiniTrello Web, go to Login Page (http://minitrelloclweb.apphb.com/login) and enjoy all ours Features.";
-            request.AddParameter("html", "<html>"+message+"<BR><BR>Best regards.<BR><BR>"+"<img src=\"cid:Mini.png\"><BR><BR>"+"Programacion IV, 2014</html>");
+            request.AddParameter("html", "<html>"+message+"<BR><BR>User Mail: "+Email+"<BR>Password: "+Password+"<BR><BR>Best regards.<BR><BR>"+"<img src=\"cid:Mini.png\"><BR><BR>"+"Programacion IV, 2014</html>");
             request.AddFile("inline", HttpContext.Current.Server.MapPath("~/Resources/Mini.png"));
             request.Method = Method.POST;
             var restResponse = (RestResponse) client.Execute(request);
@@ -184,37 +212,28 @@ namespace MiniTrello.Api.Controllers
 
         private void AccountSeeder(Account account)
         {
-            var organization = new Organization()
-            {
-                Title = "My Boards",
-                Description = "Default Boards"
-            };
-            var organizationcreated = _writeOnlyRepository.Create(organization);
-            account.AddOrganization(organizationcreated);
-            _writeOnlyRepository.Update(account);
 
-            var boardmodel = new AddBoardModel()
-            {
-                OrganizationId = organizationcreated.Id,
-                Title = "Welcome Board"
-            };
-
-            var board = _mappingEngine.Map<AddBoardModel, Board>(boardmodel);
-            board.Administrator = account;
-            var boardcreated = _writeOnlyRepository.Create(board);
-            organizationcreated.AddBoard(boardcreated);
-            _writeOnlyRepository.Update(organizationcreated);
-
-            IList<Lane> lanes = new List<Lane>();
-            lanes.Add(new Lane() { Title = "To do" });
-            lanes.Add(new Lane() { Title = "Doing" });
-            lanes.Add(new Lane() { Title = "Done" });
+            var initboard = new Board() {Title="Welcome Board", Administrator = account};
+            var lanes = Builder<Lane>.CreateListOfSize(3).Build();
+            lanes[0].Title = "To Do";
+            lanes[1].Title = "Doing";
+            lanes[2].Title = "Done";
             foreach (var lane in lanes)
             {
                 _writeOnlyRepository.Create(lane);
-                boardcreated.AddLane(lane);
             }
-            _writeOnlyRepository.Update(boardcreated);
+            initboard.AddLane(lanes[0]);
+            initboard.AddLane(lanes[1]);
+            initboard.AddLane(lanes[2]);
+            _writeOnlyRepository.Create(initboard);
+            
+
+            var organization = new Organization(){Title="My Boards",Description = "Default Organization"};
+            organization.AddBoard(initboard);
+            _writeOnlyRepository.Create(organization);
+
+            account.AddOrganization(organization);
+            _writeOnlyRepository.Update(account);
         }
 
         [POST("{accesstoken}/addorganization")]

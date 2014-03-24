@@ -55,5 +55,18 @@ namespace MiniTrello.Api.Controllers
             }
             return new HttpResponseMessage(HttpStatusCode.NotModified);
         }
+
+        [AcceptVerbs("GET")]
+        [GET("organization/{accesstoken}")]
+        public List<GetOrganizationsModel> GetAllForUser(string accesstoken)
+        {
+            Sessions sessions =
+                _readOnlyRepository.Query<Sessions>(sessions1 => sessions1.Token == accesstoken).FirstOrDefault();
+            Account account = _readOnlyRepository.GetById<Account>(sessions.User.Id);
+            var mappedOrganizationModelList = _mappingEngine.Map<IEnumerable<Organization>,
+                IEnumerable<GetOrganizationsModel>>(account.Organizations).ToList();
+            return mappedOrganizationModelList;
+        } 
+
     }
 }

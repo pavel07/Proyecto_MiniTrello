@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 
 namespace MiniTrello.Domain.Entities
 {

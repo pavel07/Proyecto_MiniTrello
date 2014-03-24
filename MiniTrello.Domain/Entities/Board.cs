@@ -6,7 +6,7 @@ namespace MiniTrello.Domain.Entities
     {
         private readonly IList<Account> _membersAccounts = new List<Account>();
         private readonly IList<Lane> _lanes = new List<Lane>();
-        private readonly IList<Activities> _activitieses = new List<Activities>(); 
+        private readonly IList<Activities> _activities = new List<Activities>(); 
         public virtual long Id { get; set; }
         public virtual string Title { get; set; }
         public virtual Account Administrator { get; set; }
@@ -20,7 +20,6 @@ namespace MiniTrello.Domain.Entities
         public virtual IEnumerable<Lane> Lanes
         {
             get { return _lanes; }
-            set { }
         }
         public virtual void AddMemberAccount (Account memberAccount)
         {

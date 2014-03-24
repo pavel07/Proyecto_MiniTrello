@@ -39,8 +39,16 @@ angular.module('app.controllers')
                                 });
                             }
                             if (data.Status == 2) {
-                                toastr.success("Bienvenido a MiniTrello | Web");
-                                $location.path('/boards');
+                                toastr.success("Bienvenido a MiniTrello | Web",
+                                {
+                                    "positionClass": "toast-bottom-full-width",
+                                    "showEasing": "swing",
+                                    "hideEasing": "swing",
+                                    "showMethod": "slideDown",
+                                    "hideMethod": "fadeOut"
+                                });
+                                $location.path('/loading');
+                                $location.path('/organization');
                             }
                         })
                     .error(function(data, status, headers, config)
@@ -63,7 +71,6 @@ angular.module('app.controllers')
                 
             };
 
-
             $scope.register = function() {
                 AccountServices
                     .register($scope.registerModel)
@@ -84,6 +91,7 @@ angular.module('app.controllers')
                         }
                         if (data.Status == 2) {
                             toastr.success(data.Message);
+                            $location.path('/loading');
                             $scope.goToLogin();
                         }
                     })
@@ -97,10 +105,11 @@ angular.module('app.controllers')
                     .success(function(data, status, headers, config) {
                         console.log(data);
                         if (data.Status == 1) {
-                            toastr.warning(data.Message);
+                            toastr.warning(data.Message, { "closeButton": true, });
                         }
                         if (data.Status == 2) {
                             toastr.success(data.Message);
+                            $location.path('/loading');
                             $scope.goToLogin();
                         }
                     })

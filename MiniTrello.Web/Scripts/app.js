@@ -39,6 +39,11 @@ angular.module('app', ['ui.router', 'app.filters', 'app.services', 'app.directiv
                 templateUrl: '/views/register',
                 controller: 'AccountController'
             })
+            .state('organizations', {
+                url: '/organization',
+                templateUrl: '/views/organizations',
+                controller: 'OrganizationController'
+            })
             .state('boards', {
                 url: '/boards',
                 templateUrl: '/views/boards',
@@ -48,6 +53,11 @@ angular.module('app', ['ui.router', 'app.filters', 'app.services', 'app.directiv
                 url: '/board/:boardId',
                 templateUrl: '/views/boardDetail',
                 controller: 'BoardController'
+            })
+            .state('loadingpage', {
+                url: '/loading',
+                templateUrl: '/views/loadingpage',
+                controller: 'AccountController'
             })
             .state('otherwise', {
                 url: '*path',

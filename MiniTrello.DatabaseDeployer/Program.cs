@@ -14,7 +14,7 @@ namespace MiniTrello.DatabaseDeployer
         static void Main(string[] args)
         {
             MsSqlConfiguration databaseConfiguration = MsSqlConfiguration.MsSql2008.ShowSql().
-                ConnectionString(x => x.FromConnectionStringWithKey("MiniTrello.Remote"));
+                ConnectionString(x => x.FromConnectionStringWithKey("MiniTrello.Local"));
 
             DomainDrivenDatabaseDeployer.DatabaseDeployer dd = null;
             ISessionFactory sessionFactory = new SessionFactoryBuilder(new MappingScheme(), databaseConfiguration)
@@ -32,7 +32,7 @@ namespace MiniTrello.DatabaseDeployer
             {
                 dd.Seed(new List<IDataSeeder>
                 {
-                    //new AccountSeeder(session)
+                    new AccountSeeder(session)
                 });
                 tx.Commit();
             }
