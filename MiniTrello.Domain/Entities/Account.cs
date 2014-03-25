@@ -20,7 +20,7 @@ namespace MiniTrello.Domain.Entities
         }
         public virtual void AddOrganization(Organization organization)
         {
-            //if(!_organizations.Contains(organization))
+            if(!_organizations.Contains(organization))
                 _organizations.Add(organization);
         }
     }

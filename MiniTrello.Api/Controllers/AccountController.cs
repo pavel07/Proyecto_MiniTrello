@@ -169,12 +169,12 @@ namespace MiniTrello.Api.Controllers
                 account.AddOrganization(organization);
                 Account accountCreated = _writeOnlyRepository.Create(account);
 
-                //initboard.Administrator = accountCreated;
-                //_writeOnlyRepository.Update(initboard);
+                initboard.Administrator = accountCreated;
+                _writeOnlyRepository.Update(initboard);
                 
                 if (accountCreated != null)
                 {
-                    //SendSimpleMessage(accountCreated.FirstName, accountCreated.LastName, accountCreated.Email, model.Password);
+                    SendSimpleMessage(accountCreated.FirstName, accountCreated.LastName, accountCreated.Email, model.Password);
                     return new AccountRegisterResponseModel(accountCreated.Email, accountCreated.FirstName, 2);
                 }
                 return new AccountRegisterResponseModel()
@@ -213,30 +213,9 @@ namespace MiniTrello.Api.Controllers
         private void AccountSeeder(Account account)
         {
 
-            var initboard = new Board() {Title="Welcome Board", Administrator = account};
-            var lanes = Builder<Lane>.CreateListOfSize(3).Build();
-            lanes[0].Title = "To Do";
-            lanes[1].Title = "Doing";
-            lanes[2].Title = "Done";
-            foreach (var lane in lanes)
-            {
-                _writeOnlyRepository.Create(lane);
-            }
-            initboard.AddLane(lanes[0]);
-            initboard.AddLane(lanes[1]);
-            initboard.AddLane(lanes[2]);
-            _writeOnlyRepository.Create(initboard);
-            
-
-            var organization = new Organization(){Title="My Boards",Description = "Default Organization"};
-            organization.AddBoard(initboard);
-            _writeOnlyRepository.Create(organization);
-
-            account.AddOrganization(organization);
-            _writeOnlyRepository.Update(account);
         }
 
-        [POST("{accesstoken}/addorganization")]
+        [POST("/organization/{accesstoken}")]
         public AddOrganizationResponseModel AddOrganization(string accesstoken, [FromBody] AddOrganizationModel model)
         {
             Sessions sessions =
@@ -251,13 +230,39 @@ namespace MiniTrello.Api.Controllers
                 return new AddOrganizationResponseModel()
                 {
                     Title = organizationCreated.Title,
-                    Message = "Organizacion Creada Exitosamente"
+                    Message = "Organizacion Creada Exitosamente",
+                    Status = 2
                 };
             }
             return new AddOrganizationResponseModel()
             {
                 Title = "Error: ",
-                Message = "No se pudo agregar la Organizacion"
+                Message = "No se pudo agregar la Organizacion",
+                Status = 0
+            };
+        }
+
+        [AcceptVerbs("DELETE")]
+        [DELETE("/organization/{organizationId}/{accesstoken}")]
+        public RemoveOrganizationResponseModel RemoveOrganization(long organizationId, string accesstoken)
+        {
+            Sessions sessions =
+                _readOnlyRepository.Query<Sessions>(sessions1 => sessions1.Token == accesstoken).FirstOrDefault();
+            Account account = sessions.User;
+            if (account != null)
+            {
+                var organization = _readOnlyRepository.GetById<Organization>(organizationId);
+                var organizationDeleted = _writeOnlyRepository.Archive(organization);
+                return new RemoveOrganizationResponseModel()
+                {
+                    Status = 2,
+                    Message = "Se elimino exitosamente"
+                };
+            }
+            return new RemoveOrganizationResponseModel()          
+            {
+                Status = 0,
+                Message = "No se pudo eliminar"
             };
         }
 

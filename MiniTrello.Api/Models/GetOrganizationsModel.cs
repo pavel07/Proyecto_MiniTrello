@@ -8,8 +8,9 @@ namespace MiniTrello.Api.Models
 {
     public class GetOrganizationsModel
     {
+        public long Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public List<AccountBoardModel> Boards { get; set; } 
+        public bool IsArchived { get; set; }
     }
 }

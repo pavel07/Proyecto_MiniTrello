@@ -1,39 +1,134 @@
 ﻿@{
-    Layout = null;
+    PageData["title"] = "| MiniTrello Web";
 }
 
-<div class="container">
-    <div class="row" ng-repeat="organization in organizations">
-        <div class="col-md-6">
-            <div class="well well-sm">
-                <div class="row">
-                    <div class="col-xs-3 col-md-3 text-center">
-                        <img src="http://bootsnipp.com/apple-touch-icon-114x114-precomposed.png" alt="bootsnipp"
-                             class="img-rounded img-responsive" />
-                    </div>
-                    <div class="col-xs-9 col-md-9 section-box">
-                        <a href="/organizations/{{organization.Id}}">
-                            <h2>
-                                {{organization.Name}}
-                            </h2>
-                        </a>
+<!DOCTYPE html>
+<html lang="en">
 
-                        <p>
-                            {{organization.Description}}
-                        </p>
+<head>
 
-                        <hr />
-                        <div class="row rating-desc">
-                            <div class="col-md-12">
-                                <span class="glyphicon glyphicon-heart"></span><span class="glyphicon glyphicon-heart">
-                                </span><span class="glyphicon glyphicon-heart"></span><span class="glyphicon glyphicon-heart">
-                                </span><span class="glyphicon glyphicon-heart"></span>(36)<span class="separator">|</span>
-                                <span class="glyphicon glyphicon-comment"></span>(100 Comments)<span class="separator">|</span><a href="/createboard/{{organization.Id}}">+ Add Board</a>
+    <title>| MiniTrello Web</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom CSS -->
+    <link href="~/Content/scrolling-nav.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand"> <img src="~/Images/Mini.png"></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-left navbar-ex1-collapse">
+                <ul class="nav">
+                    <li class="divider-vertical"></li>
+                    <li><a href="/"><img src="~/Images/home.png"> Home</a></li>
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse navbar-left navbar-ex1-collapse">
+                <ul class="nav">
+                    <li class="divider-vertical"></li>
+                    <li><a href="" data-toggle="modal" data-target="#t_and_c_m"><img src="~/Images/organization.png"> + Add Organization</a></li>
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse navbar-right navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown"><img src="~/Images/user.png"><strong>Welcome, User</strong> <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href=""><i class="icon-envelope"></i> Update Profile</a></li>
+                            <li class="divider"></li>
+                            <li><a href=""><i class="icon-off"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!--<section id="organization" class="organizations">-->
+        <div class="container">
+            <div class="row" ng-repeat="organization in organizations" style="margin-top: 1em">
+                <div class="col-md-6">
+                    <div class="well well-sm">
+                        <div class="row">
+                            <div class="col-xs-3 col-md-3 text-center">
+                                <img src="~/Images/trello.png" alt="bootsnipp"
+                                     class="img-rounded img-responsive" />
+                            </div>
+                            <div class="col-xs-9 col-md-9 section-box">
+                                <a href="/organization/{{organization.Id}}">
+                                    <h1>
+                                        <strong>{{organization.Title}}</strong>
+                                    </h1>
+                                </a>
+                                <p>
+                                    {{organization.Description}}
+                                </p>
+                                <hr />
+                                <div class="row rating-desc">
+                                    <div class="col-md-12">
+                                        <a href="">Rename Organization </a>
+                                        <span>| </span>
+                                        <button type="button" ng-click="removeOrganization(organization.Id)" class="btn btn-lg btn-primary btn-danger">(-) Remove Organization</button>
+                                        <!--<a href="">(-) Remove Organization</a>-->
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    <!--</section>-->
+
+    <!-- Core JavaScript Files -->
+    <script src="~/Scripts/vendor/jquery-2.0.3.js"></script>
+    <script src="~/Scripts/vendor/bootstrap.min.js"></script>
+    <script src="~/Scripts/vendor/jquery.easing.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="~/Scripts/vendor/scrolling-nav.js"></script>
+</body>
+
+</html>
+<div class="modal fade" id="t_and_c_m" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><strong class="label label-primary">Add New Organization</strong></h4>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" name="title" ng-model="addOrganizationModel.Title" id="title" class="form-control input-lg" placeholder="Title New Organization">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="description" ng-model="addOrganizationModel.Description" id="description" class="form-control input-lg" placeholder="Description">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4">
+                            <button ng-click="addOrganization()" class="btn btn-lg btn-success btn-block">(+) Add</button>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4">
+                            <button ng-click="goToOrganization()" class="btn btn-lg btn-primary btn-block" data-dismiss="modal" aria-hidden="true">Back to Organizations Page</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

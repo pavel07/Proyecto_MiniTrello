@@ -10,10 +10,9 @@ namespace MiniTrello.Domain.Entities
         public virtual string Title { get; set; }
         public virtual string Description { get; set; }
         public virtual bool IsArchived { get; set; }
-        public virtual IEnumerable<Board> Board
+        public virtual IEnumerable<Board> Boards
         {
             get { return _boards; }
-            set { }
         }
 
         public virtual void AddBoard(Board board)

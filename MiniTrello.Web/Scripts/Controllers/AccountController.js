@@ -39,7 +39,7 @@ angular.module('app.controllers')
                                 });
                             }
                             if (data.Status == 2) {
-                                toastr.success("Bienvenido a MiniTrello | Web",
+                                toastr.success("","Bienvenido a MiniTrello | Web",
                                 {
                                     "positionClass": "toast-bottom-full-width",
                                     "showEasing": "swing",

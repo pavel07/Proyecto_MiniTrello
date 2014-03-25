@@ -157,12 +157,17 @@
     <Content Include="Content\variables.less" />
     <Content Include="Global.asax" />
     <Content Include="Images\banner-bg.jpg" />
+    <Content Include="Images\board.png" />
     <Content Include="Images\doge.png" />
+    <Content Include="Images\home.png" />
     <Content Include="Images\intro-bg.jpg" />
     <Content Include="Images\ipad.png" />
     <Content Include="Images\load.gif" />
     <Content Include="Images\Mini.png" />
+    <Content Include="Images\organization.png" />
     <Content Include="Images\phones.png" />
+    <Content Include="Images\trello.png" />
+    <Content Include="Images\user.png" />
     <Content Include="Scripts\Controllers\AboutController.js" />
     <Content Include="Scripts\Controllers\AccountController.js" />
     <Content Include="Scripts\Controllers\BoardController.js" />

@@ -12,6 +12,13 @@ angular.module('app.services').factory('OrganizationServices', ['$http', '$windo
         return $http.get(baseUrl + '/organization/' + $window.sessionStorage.token);
     };
 
+    organization.addOrganization = function(model) {
+        return $http.post(baseUrl + '/organization/' + $window.sessionStorage.token, model);
+    };
+
+    organization.removeOrganization = function (organizationId) {
+        return $http.delete(baseUrl + '/organization/' + organizationId + '/'+$window.sessionStorage.token);
+    };
     return organization;
 
 }]);

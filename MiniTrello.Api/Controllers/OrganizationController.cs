@@ -65,7 +65,15 @@ namespace MiniTrello.Api.Controllers
             Account account = _readOnlyRepository.GetById<Account>(sessions.User.Id);
             var mappedOrganizationModelList = _mappingEngine.Map<IEnumerable<Organization>,
                 IEnumerable<GetOrganizationsModel>>(account.Organizations).ToList();
-            return mappedOrganizationModelList;
+            var insArchivedList = new List<GetOrganizationsModel>();
+            foreach (var orga in mappedOrganizationModelList)
+            {
+                if (orga.IsArchived == false)
+                {
+                    insArchivedList.Add(orga);
+                }
+            }
+            return insArchivedList;
         } 
 
     }
