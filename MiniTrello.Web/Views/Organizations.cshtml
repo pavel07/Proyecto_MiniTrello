@@ -50,9 +50,9 @@
                     <li class="dropdown">
                         <a href="" class="dropdown-toggle" data-toggle="dropdown"><img src="~/Images/user.png"><strong>Welcome, User</strong> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href=""><i class="icon-envelope"></i> Update Profile</a></li>
+                            <li><a href=""><i class="glyphicon glyphicon-user"></i> Update Profile</a></li>
                             <li class="divider"></li>
-                            <li><a href=""><i class="icon-off"></i> Logout</a></li>
+                            <li><a href=""><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -71,7 +71,7 @@
                                      class="img-rounded img-responsive" />
                             </div>
                             <div class="col-xs-9 col-md-9 section-box">
-                                <a href="/organization/{{organization.Id}}">
+                                <a href="/boards/{{organization.Id}}">
                                     <h1>
                                         <strong>{{organization.Title}}</strong>
                                     </h1>
@@ -82,10 +82,12 @@
                                 <hr />
                                 <div class="row rating-desc">
                                     <div class="col-md-12">
-                                        <a href="">Rename Organization </a>
-                                        <span>| </span>
-                                        <button type="button" ng-click="removeOrganization(organization.Id)" class="btn btn-lg btn-primary btn-danger">(-) Remove Organization</button>
-                                        <!--<a href="">(-) Remove Organization</a>-->
+                                        <button type="button" class="btn btn-labeled btn-danger" ng-click="removeOrganization(organization.Id)">
+                                            <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>Remove
+                                        </button>
+                                        <button type="button" class="btn btn-labeled btn-primary" ng-click="">
+                                            <span class="btn-label"><i class="glyphicon glyphicon-edit"></i></span>Rename
+                                        </button>
                                     </div>
                                 </div>
                             </div>
