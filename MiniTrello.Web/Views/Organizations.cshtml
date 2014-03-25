@@ -82,11 +82,11 @@
                                 <hr />
                                 <div class="row rating-desc">
                                     <div class="col-md-12">
-                                        <button type="button" class="btn btn-labeled btn-danger" ng-click="removeOrganization(organization.Id)">
+                                        <button type="button"  class="btn btn-labeled btn-danger alert-danger" ng-click="removeOrganization(organization.Id)">
                                             <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>Remove
                                         </button>
-                                        <button type="button" class="btn btn-labeled btn-primary" ng-click="">
-                                            <span class="btn-label"><i class="glyphicon glyphicon-edit"></i></span>Rename
+                                        <button type="button" data-toggle="modal" data-target="#rename" class="btn btn-labeled btn-primary">
+                                            <span class="btn-label"><i class="glyphicon glyphicon-edit"></i></span>Rename     
                                         </button>
                                     </div>
                                 </div>
@@ -102,7 +102,7 @@
     <script src="~/Scripts/vendor/jquery-2.0.3.js"></script>
     <script src="~/Scripts/vendor/bootstrap.min.js"></script>
     <script src="~/Scripts/vendor/jquery.easing.min.js"></script>
-
+    <script src="~/Scripts/Directives/directives.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="~/Scripts/vendor/scrolling-nav.js"></script>
 </body>
@@ -134,3 +134,27 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div class="modal fade" id="rename" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><strong class="label label-primary">Rename Organization</strong></h4>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" name="title" ng-model="renameModel.NewTitle" id="title" class="form-control input-lg" placeholder="Title New Organization">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4">
+                            <button ng-click="renameOrganization(organization.Id)" class="btn btn-lg btn-success btn-block"><i class="glyphicon glyphicon-edit"></i>Rename </button>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4">
+                            <button ng-click="goToOrganization()" class="btn btn-lg btn-primary btn-block" data-dismiss="modal" aria-hidden="true"><i class="glyphicon glyphicon-backward"></i>Back to Organizations Page</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->   

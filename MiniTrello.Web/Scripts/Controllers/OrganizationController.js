@@ -63,8 +63,11 @@ angular.module('app.controllers')
                     });
             };
 
+            $scope.deleteOrganizationModel = { Id: '' };
+
             $scope.removeOrganization = function (organizationId) {
-                organizationServices.removeOrganization(organizationId)
+                $scope.deleteOrganizationModel.Id = organizationId;
+                organizationServices.removeOrganization($scope.deleteOrganizationModel)
                     .success(function (data, status, headers, config) {
                         if (data.Status == 0) {
                             toastr.error(data.Message,"", {
@@ -98,6 +101,26 @@ angular.module('app.controllers')
                             "hideMethod": "fadeOut"
                         });
                     });
+            };
+
+            $scope.renameModel = { Id: '', NewTitle: '' };
+
+            $scope.renameOrganization = function (organizationId) {
+                $scope.renameModel.Id = organizationId;
+                organizationServices.renameOrganization($scope.renameModel)
+                    .success(function (data, status, headers, config) {
+                        if (data.Status == 0) {
+                            toastr.error(data.Message);
+                        }
+                        if (data.Status == 2) {
+                            toastr.success(data.Message);
+                            $scope.goToOrganization();
+                        }
+                    })
+                    .error(function (data, status, headers, config) {
+                        console.log(data);
+                        toastr.error(data);
+                });
             };
 
             $scope.goToOrganization = function () {

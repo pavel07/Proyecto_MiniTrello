@@ -234,6 +234,8 @@
     <Compile Include="Models\RemoveLaneModel.cs" />
     <Compile Include="Models\RemoveOrganizationModel.cs" />
     <Compile Include="Models\RemoveOrganizationResponseModel.cs" />
+    <Compile Include="Models\RenameOrgaModel.cs" />
+    <Compile Include="Models\RenameOrgaResponseModel.cs" />
     <Compile Include="Models\RestorePasswordResponseModel.cs" />
     <Compile Include="Models\SessionsModel.cs" />
     <Compile Include="Models\UpdateAccountResponseModel.cs" />

@@ -242,16 +242,16 @@ namespace MiniTrello.Api.Controllers
             };
         }
 
-        [AcceptVerbs("DELETE")]
-        [DELETE("/organization/{organizationId}/{accesstoken}")]
-        public RemoveOrganizationResponseModel RemoveOrganization(long organizationId, string accesstoken)
+        [AcceptVerbs("PUT")]
+        [PUT("/organization/{accesstoken}")]
+        public RemoveOrganizationResponseModel RemoveOrganization([FromBody] RemoveOrganizationModel model, string accesstoken)
         {
             Sessions sessions =
                 _readOnlyRepository.Query<Sessions>(sessions1 => sessions1.Token == accesstoken).FirstOrDefault();
             Account account = sessions.User;
             if (account != null)
             {
-                var organization = _readOnlyRepository.GetById<Organization>(organizationId);
+                var organization = _readOnlyRepository.GetById<Organization>(model.Id);
                 var organizationDeleted = _writeOnlyRepository.Archive(organization);
                 return new RemoveOrganizationResponseModel()
                 {
@@ -263,6 +263,31 @@ namespace MiniTrello.Api.Controllers
             {
                 Status = 0,
                 Message = "No se pudo eliminar"
+            };
+        }
+
+        [AcceptVerbs("PUT")]
+        [PUT("/organization/rename/{accesstoken}")]
+        public RenameOrgaResponseModel RenameOrganization([FromBody] RenameOrgaModel model, string accesstoken)
+        {
+            Sessions sessions =
+                _readOnlyRepository.Query<Sessions>(sessions1 => sessions1.Token == accesstoken).FirstOrDefault();
+            Account account = sessions.User;
+            if (account != null)
+            {
+                var organization = _readOnlyRepository.GetById<Organization>(model.Id);
+                organization.Title = model.NewTitle;
+                var organizationUpdated = _writeOnlyRepository.Update(organization);
+                return new RenameOrgaResponseModel()
+                {
+                    Status = 2,
+                    Message = "Listo"
+                };
+            }
+            return new RenameOrgaResponseModel()
+            {
+                Status = 0,
+                Message = "Error"
             };
         }
 

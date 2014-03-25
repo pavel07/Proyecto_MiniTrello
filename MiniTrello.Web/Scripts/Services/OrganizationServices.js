@@ -16,8 +16,12 @@ angular.module('app.services').factory('OrganizationServices', ['$http', '$windo
         return $http.post(baseUrl + '/organization/' + $window.sessionStorage.token, model);
     };
 
-    organization.removeOrganization = function (organizationId) {
-        return $http.delete(baseUrl + '/organization/' + organizationId + '/'+$window.sessionStorage.token);
+    organization.removeOrganization = function (model) {
+        return $http.put(baseUrl + '/organization/'+$window.sessionStorage.token, model);
+    };
+
+    organization.renameOrganization = function (model) {
+        return $http.put(baseUrl + '/organization/rename/' + $window.sessionStorage.token, model);
     };
     return organization;
 
