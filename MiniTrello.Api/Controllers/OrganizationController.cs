@@ -66,17 +66,28 @@ namespace MiniTrello.Api.Controllers
             };
         }
 
-        [AcceptVerbs("DELETE")]
-        [DELETE("boards/removeboard")]
-        public HttpResponseMessage RemoveBoard([FromBody] RemoveBoardModel model)
+        [AcceptVerbs("PUT")]
+        [PUT("boards/{accesstoken}")]
+        public RemoveBoardResponseModel RemoveBoard(string accesstoken,[FromBody] RemoveBoardModel model)
         {
-            var board = _readOnlyRepository.GetById<Board>(model.BoardId);
-            var archiveboard = _writeOnlyRepository.Archive(board);
-            if (archiveboard.IsArchived)
+            Sessions sessions =
+                _readOnlyRepository.Query<Sessions>(sessions1 => sessions1.Token == accesstoken).FirstOrDefault();
+            Account account = sessions.User;
+            if (account != null)
             {
-                return new HttpResponseMessage(HttpStatusCode.OK);
+                var board = _readOnlyRepository.GetById<Board>(model.Id);
+                _writeOnlyRepository.Archive(board);
+                return new RemoveBoardResponseModel()
+                {
+                    Status = 2,
+                    Message = "Se elimino exitosamente"
+                };
             }
-            return new HttpResponseMessage(HttpStatusCode.NotModified);
+            return new RemoveBoardResponseModel()
+            {
+                Status = 0,
+                Message = "No se pudo eliminar"
+            };
         }
 
         [AcceptVerbs("GET")]

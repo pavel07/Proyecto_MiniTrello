@@ -232,6 +232,7 @@
     <Compile Include="Models\MembersBoardModel.cs" />
     <Compile Include="Models\MoveCardModel.cs" />
     <Compile Include="Models\RemoveBoardModel.cs" />
+    <Compile Include="Models\RemoveBoardResponseModel.cs" />
     <Compile Include="Models\RemoveCardModel.cs" />
     <Compile Include="Models\RemoveLaneModel.cs" />
     <Compile Include="Models\RemoveOrganizationModel.cs" />
