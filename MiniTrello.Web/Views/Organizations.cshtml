@@ -85,9 +85,27 @@
                                         <button type="button"  class="btn btn-labeled btn-danger alert-danger" ng-click="removeOrganization(organization.Id)">
                                             <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>Remove
                                         </button>
-                                        <button type="button" data-toggle="modal" data-target="#rename" class="btn btn-labeled btn-primary">
-                                            <span class="btn-label"><i class="glyphicon glyphicon-edit"></i></span>Rename     
-                                        </button>
+                                        <a class="dropdown">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class=" glyphicon glyphicon-edit"></i>Rename<b class="caret"></b></button>
+                                            <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
+                                                <li>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <form class="form" role="form">
+                                                                <div class="form-group">
+                                                                    <input type="title" class="form-control" id="title" ng-model="renameModel.NewTitle" placeholder="New Title">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <button type="submit" class="btn btn-success btn-block" ng-click="renameOrganization(organization.Id)">
+                                                                        <i class="glyphicon glyphicon-save"></i>Save
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
