@@ -48,11 +48,11 @@
             <div class="collapse navbar-collapse navbar-right navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        <a href="" class="dropdown-toggle" data-toggle="dropdown"><img src="~/Images/user.png"><strong>Welcome, User</strong> <b class="caret"></b></a>
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown"><img src="~/Images/user.png"><strong>User Settings</strong> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href=""><i class="glyphicon glyphicon-user"></i> Update Profile</a></li>
+                            <li><a href="" data-toggle="modal" data-target="#updateprofile"><i class="glyphicon glyphicon-user"></i> Update Profile</a></li>
                             <li class="divider"></li>
-                            <li><a href=""><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
+                            <li><a href="/login"><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -152,27 +152,38 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-<div class="modal fade" id="rename" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="updateprofile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel"><strong class="label label-primary">Rename Organization</strong></h4>
+                <h4 class="modal-title" id="myModalLabel"><strong class="label label-primary">Update User Profile</strong></h4>
                 <div class="modal-body">
                     <div class="form-group">
-                        <input type="text" name="title" ng-model="renameModel.NewTitle" id="title" class="form-control input-lg" placeholder="Title New Organization">
+                        <input type="text" class="form-control" id="firstname" ng-model="updateModel.NewFirstName" placeholder="New FirstName">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="lastname" ng-model="updateModel.NewLastName" placeholder="New LastName">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="password" ng-model="updateModel.Password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="newpassword" ng-model="updateModel.NewPassword" placeholder="New Password">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="confirmnewpassword" ng-model="updateModel.ConfirmNewPassword" placeholder="Confirm New Password">
                     </div>
                     <div class="row">
                         <div class="col-xs-4 col-sm-4 col-md-4">
-                            <button ng-click="renameOrganization(organization.Id)" class="btn btn-lg btn-success btn-block"><i class="glyphicon glyphicon-edit"></i>Rename </button>
+                            <button ng-click="updateProfile()" class="btn btn-lg btn-success btn-block"><i class="glyphicon glyphicon-save"></i>Save</button>
                         </div>
                         <div class="col-xs-4 col-sm-4 col-md-4">
-                            <button ng-click="goToOrganization()" class="btn btn-lg btn-primary btn-block" data-dismiss="modal" aria-hidden="true"><i class="glyphicon glyphicon-backward"></i>Back to Organizations Page</button>
+                            <button ng-click="goToOrganization()" class="btn btn-lg btn-primary btn-block" data-dismiss="modal" aria-hidden="true">Back to Organizations Page</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->   
+</div><!-- /.modal -->

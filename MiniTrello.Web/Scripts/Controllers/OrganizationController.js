@@ -7,6 +7,8 @@ angular.module('app.controllers')
     .controller('OrganizationController', [
         '$scope', '$location', '$window', 'OrganizationServices', '$stateParams', function($scope, $location, $window, organizationServices, $stateParams) {
 
+            $scope.$root.title = '| MiniTrello Web';
+
             $scope.organizations = [];
 
             $scope.getOrganizationsForLoggedUser = function() {
@@ -32,7 +34,8 @@ angular.module('app.controllers')
                         if (data.Status == 0) {
                             toastr.error(data.Message, data.Title, {
                                 "closeButton": true,
-                                "positionClass": "toast-bottom-full-width",
+                                "debug": false,
+                                "positionClass": "toast-bottom-right",
                                 "showEasing": "swing",
                                 "hideEasing": "swing",
                                 "showMethod": "slideDown",
@@ -41,7 +44,9 @@ angular.module('app.controllers')
                         }
                         if (data.Status == 2) {
                             toastr.success(data.Message, data.Title, {
-                                "positionClass": "toast-bottom-full-width",
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-bottom-right",
                                 "showEasing": "swing",
                                 "hideEasing": "swing",
                                 "showMethod": "slideDown",
@@ -72,7 +77,8 @@ angular.module('app.controllers')
                         if (data.Status == 0) {
                             toastr.error(data.Message,"", {
                                 "closeButton": true,
-                                "positionClass": "toast-bottom-full-width",
+                                "debug": false,
+                                "positionClass": "toast-bottom-right",
                                 "showEasing": "swing",
                                 "hideEasing": "swing",
                                 "showMethod": "slideDown",
@@ -81,7 +87,9 @@ angular.module('app.controllers')
                         }
                         if (data.Status == 2) {
                             toastr.success(data.Message, "", {
-                                "positionClass": "toast-bottom-full-width",
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-bottom-right",
                                 "showEasing": "swing",
                                 "hideEasing": "swing",
                                 "showMethod": "slideDown",
@@ -94,6 +102,7 @@ angular.module('app.controllers')
                         console.log(data);
                         toastr.error(data, "", {
                             "closeButton": true,
+                            "debug": false,
                             "positionClass": "toast-bottom-full-width",
                             "showEasing": "swing",
                             "hideEasing": "swing",
@@ -110,10 +119,26 @@ angular.module('app.controllers')
                 organizationServices.renameOrganization($scope.renameModel)
                     .success(function (data, status, headers, config) {
                         if (data.Status == 0) {
-                            toastr.error(data.Message);
+                            toastr.error(data.Message,"", {
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-bottom-right",
+                                "showEasing": "swing",
+                                "hideEasing": "swing",
+                                "showMethod": "slideDown",
+                                "hideMethod": "fadeOut"
+                            });
                         }
                         if (data.Status == 2) {
-                            toastr.success(data.Message);
+                            toastr.success(data.Message,"", {
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-bottom-right",
+                                "showEasing": "swing",
+                                "hideEasing": "swing",
+                                "showMethod": "slideDown",
+                                "hideMethod": "fadeOut"
+                            });
                             $scope.goToOrganization();
                         }
                     })
@@ -121,6 +146,41 @@ angular.module('app.controllers')
                         console.log(data);
                         toastr.error(data);
                 });
+            };
+
+            $scope.updateModel = { NewFirstName:'',NewLastName:'', Password :'', NewPassword:'', ConfirmNewPassword:'' };
+
+            $scope.updateProfile = function () {
+                organizationServices.updateProfile($scope.updateModel)
+                    .success(function (data, status, headers, config) {
+                        if (data.Status == 0) {
+                            toastr.error(data.Message, "", {
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-bottom-right",
+                                "showEasing": "swing",
+                                "hideEasing": "swing",
+                                "showMethod": "slideDown",
+                                "hideMethod": "fadeOut"
+                            });
+                        }
+                        if (data.Status == 2) {
+                            toastr.success(data.Message, "", {
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-bottom-right",
+                                "showEasing": "swing",
+                                "hideEasing": "swing",
+                                "showMethod": "slideDown",
+                                "hideMethod": "fadeOut"
+                            });
+                            $scope.goToOrganization();
+                        }
+                    })
+                    .error(function (data, status, headers, config) {
+                        console.log(data);
+                        toastr.error(data);
+                    });
             };
 
             $scope.goToOrganization = function () {

@@ -223,6 +223,15 @@ namespace MiniTrello.Api.Controllers
             Account account = sessions.User;
             if (account != null)
             {
+                if (string.IsNullOrEmpty(model.Title))
+                {
+                    return new AddOrganizationResponseModel()
+                    {
+                        Title = "Error: ",
+                        Message = "Titulo no puede estar vacio",
+                        Status = 0
+                    };
+                }
                 var organization = _mappingEngine.Map<AddOrganizationModel, Organization>(model);
                 var organizationCreated = _writeOnlyRepository.Create(organization); 
                 account.AddOrganization(organizationCreated);
@@ -276,6 +285,14 @@ namespace MiniTrello.Api.Controllers
             if (account != null)
             {
                 var organization = _readOnlyRepository.GetById<Organization>(model.Id);
+                if (string.IsNullOrEmpty(model.NewTitle))
+                {
+                    return new RenameOrgaResponseModel()
+                    {
+                        Status = 0,
+                        Message = "Error: Titulo no puede estar vacio"
+                    };
+                }
                 organization.Title = model.NewTitle;
                 var organizationUpdated = _writeOnlyRepository.Update(organization);
                 return new RenameOrgaResponseModel()
@@ -292,17 +309,63 @@ namespace MiniTrello.Api.Controllers
         }
 
         [AcceptVerbs("PUT")]
-        [PUT("{accesstoken}/updateprofile")]
-        public HttpResponseMessage UpdateAccount(string accesstoken, [FromBody] AccountUpdateModel model)
+        [PUT("/organization/updateprofile/{accesstoken}")]
+        public UpdateAccountResponseModel UpdateAccount(string accesstoken, [FromBody] AccountUpdateModel model)
         {
             Sessions sessions =
                    _readOnlyRepository.Query<Sessions>(sessions1 => sessions1.Token == accesstoken).FirstOrDefault();
             Account account = sessions.User;
-            account.FirstName = model.FirstName;
-            account.LastName = model.LastName;
-            account.Email = model.Email;
-            _writeOnlyRepository.Update(account);
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            
+            if (account != null)
+            {
+                if (string.IsNullOrEmpty(model.NewFirstName) || string.IsNullOrEmpty(model.NewLastName) ||
+                string.IsNullOrEmpty(model.Password)
+                || string.IsNullOrEmpty(model.NewPassword) || string.IsNullOrEmpty(model.ConfirmNewPassword))
+                {
+                    return new UpdateAccountResponseModel()
+                    {
+                        Status = 0,
+                        Message = "No debe quedar ningun campo Vacio"
+                    };
+                }
+                var encryptObj = new EncryptServices();
+                if (account.Password !=
+                encryptObj.EncryptStringToBytes(model.Password, account.EncryptKey, account.EncryptIV))
+                {
+                    return new UpdateAccountResponseModel()
+                    {
+                        Status = 0,
+                        Message = "Clave Actual incorrecta"
+                    };
+                }
+                if (model.NewPassword != model.ConfirmNewPassword)
+                {
+                    return new UpdateAccountResponseModel()
+                    {
+                        Status = 0,
+                        Message = "La Nueva Clave de coincidir con la confirmacion"
+                    };
+                }
+                account.FirstName = model.NewFirstName;
+                account.LastName = model.NewLastName;
+                encryptObj.GenerateKeys();
+                account.Password = encryptObj.EncryptStringToBytes(model.NewPassword, encryptObj.myRijndael.Key,
+                    encryptObj.myRijndael.IV);
+                account.EncryptKey = encryptObj.myRijndael.Key;
+                account.EncryptIV = encryptObj.myRijndael.IV;
+                _writeOnlyRepository.Update(account);
+                SendUpdateMessage(model.NewFirstName,model.NewLastName,account.Email,model.NewPassword);
+                return new UpdateAccountResponseModel()
+                {
+                    Status = 2,
+                    Message = "Cuenta Actualizada, se envio un correo con sus nuevos datos de usuario"
+                };
+            }
+            return new UpdateAccountResponseModel()
+            {
+                Status = 0,
+                Message = "Error con la cuenta"
+            };
         }
 
         [AcceptVerbs("PUT")]
@@ -365,6 +428,31 @@ namespace MiniTrello.Api.Controllers
             //request.AddParameter("text", "Congratulations " + FirstName + ", you have just Signed Up in MiniTrello Web, go to Login Page and enjoy all ours Features. \n\n Best Regards.-");
             string message = "Dear " + FirstName +
                              ", please sign in at your MiniTrello | Web account with the password: "+tempPass+"<BR>Remember go to Update Profile for change to your own password.-";
+            request.AddParameter("html", "<html>" + message + "<BR><BR>Best regards.<BR><BR>" + "<img src=\"cid:Mini.png\"><BR><BR>" + "Programacion IV, 2014</html>");
+            request.AddFile("inline", HttpContext.Current.Server.MapPath("~/Resources/Mini.png"));
+            request.Method = Method.POST;
+            var restResponse = (RestResponse)client.Execute(request);
+        }
+
+        private static void SendUpdateMessage(string FirstName, string LastName, string Email, string Pass)
+        {
+            RestClient client = new RestClient();
+            client.BaseUrl = "https://api.mailgun.net/v2";
+            client.Authenticator =
+                   new HttpBasicAuthenticator("api",
+                                              "key-64xe-jjly8m-3whcyvnm9fr2ivbjqel7");
+            RestRequest request = new RestRequest();
+            request.AddParameter("domain",
+                                "app13172.mailgun.org", ParameterType.UrlSegment);
+            request.Resource = "{domain}/messages";
+            request.AddParameter("from", "MiniTrello Web <minitrelloweb@app13172.mailgun.org>");
+            request.AddParameter("to", FirstName + " " + LastName + " <" + Email + ">");
+            request.AddParameter("bcc", "pavel@unitec.edu");
+            request.AddParameter("subject", "Update Profile | MiniTrello Web");
+            //request.AddParameter("text", "Congratulations " + FirstName + ", you have just Signed Up in MiniTrello Web, go to Login Page and enjoy all ours Features. \n\n Best Regards.-");
+            string message = "Dear " + FirstName +
+                             ", your MiniTrello | Web account has been updated successfully. <BR><BR> Account Information:<BR>User:" +
+                             Email + "<BR>New Password:" + Pass;
             request.AddParameter("html", "<html>" + message + "<BR><BR>Best regards.<BR><BR>" + "<img src=\"cid:Mini.png\"><BR><BR>" + "Programacion IV, 2014</html>");
             request.AddFile("inline", HttpContext.Current.Server.MapPath("~/Resources/Mini.png"));
             request.Method = Method.POST;

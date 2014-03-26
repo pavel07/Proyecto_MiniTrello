@@ -23,6 +23,10 @@ angular.module('app.services').factory('OrganizationServices', ['$http', '$windo
     organization.renameOrganization = function (model) {
         return $http.put(baseUrl + '/organization/rename/' + $window.sessionStorage.token, model);
     };
+
+    organization.updateProfile = function (model) {
+        return $http.put(baseUrl + '/organization/updateprofile/' + $window.sessionStorage.token, model);
+    };
     return organization;
 
 }]);
