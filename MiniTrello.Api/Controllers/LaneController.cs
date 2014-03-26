@@ -42,8 +42,8 @@ namespace MiniTrello.Api.Controllers
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        [AcceptVerbs("DELETE")]
-        [DELETE("lanes/removecard")]
+        [AcceptVerbs("PUT")]
+        [PUT("lanes/removecard")]
         public HttpResponseMessage RemoveCard([FromBody] RemoveCardModel model)
         {
             var card = _readOnlyRepository.GetById<Card>(model.CardId);
@@ -70,5 +70,27 @@ namespace MiniTrello.Api.Controllers
             _writeOnlyRepository.Update(destinationlane);
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
+
+        [AcceptVerbs("GET")]
+        [GET("lanes/{boardId}/{accesstoken}")]
+        public List<GetLanesModel> GetAllLanesForBoard(long boardId, string accesstoken)
+        {
+            Sessions sessions =
+                _readOnlyRepository.Query<Sessions>(sessions1 => sessions1.Token == accesstoken).FirstOrDefault();
+            Account account = _readOnlyRepository.GetById<Account>(sessions.User.Id);
+
+            var board = _readOnlyRepository.GetById<Board>(boardId);
+            var mappedLaneModelList = _mappingEngine.Map<IEnumerable<Lane>,
+                IEnumerable<GetLanesModel>>(board.Lanes).ToList();
+            var insArchivedList = new List<GetLanesModel>();
+            foreach (var lane in mappedLaneModelList)
+            {
+                if (lane.IsArchived == false)
+                {
+                    insArchivedList.Add(lane);
+                }
+            }
+            return insArchivedList;
+        } 
     }
 }

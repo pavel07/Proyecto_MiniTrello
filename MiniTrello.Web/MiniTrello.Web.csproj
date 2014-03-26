@@ -176,6 +176,7 @@
     <Content Include="Scripts\Controllers\BoardController.js" />
     <Content Include="Scripts\Controllers\ErrorController.js" />
     <Content Include="Scripts\Controllers\HomeController.js" />
+    <Content Include="Scripts\Controllers\LaneController.js" />
     <Content Include="Scripts\Controllers\OrganizationController.js" />
     <Content Include="Scripts\Directives\directives.js" />
     <Content Include="Scripts\Directives\directives.spec.js">
@@ -187,6 +188,7 @@
     </Content>
     <Content Include="Scripts\Services\AccountServices.js" />
     <Content Include="Scripts\Services\BoardServices.js" />
+    <Content Include="Scripts\Services\LaneServices.js" />
     <Content Include="Scripts\Services\OrganizationServices.js" />
     <Content Include="Scripts\Services\services.js" />
     <Content Include="Scripts\Services\services.spec.js">
@@ -559,9 +561,9 @@
     <Content Include="Views\About.cshtml" />
     <Content Include="Views\register.cshtml" />
     <Content Include="Views\boards.cshtml" />
-    <Content Include="Views\BoardDetail.cshtml" />
     <Content Include="Views\LoadingPage.cshtml" />
     <Content Include="Views\organizations.cshtml" />
+    <Content Include="Views\lanes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

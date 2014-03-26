@@ -1,0 +1,226 @@
+﻿@{
+    PageData["title"] = "| MiniTrello Web";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>| MiniTrello Web</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom CSS -->
+    <link href="~/Content/scrolling-nav.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<!-- The #page-top ID is part of the scrolling feature - the data-spy and data-target are part of the built-in Bootstrap scrollspy function -->
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand"> <img src="~/Images/Mini.png"></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-left navbar-ex1-collapse">
+                <ul class="nav">
+                    <li class="divider-vertical"></li>
+                    <li><a href="/"><img src="~/Images/home.png"> Home</a></li>
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse navbar-left navbar-ex1-collapse">
+                <ul class="nav">
+                    <li class="divider-vertical"></li>
+                    <li><a href="" data-toggle="modal" data-target="#t_and_c_m"><img src="~/Images/boards.png"> + Add Lane</a></li>
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse navbar-left navbar-ex1-collapse">
+                <ul class="nav">
+                    <li class="divider-vertical"></li>
+                    <li><a href="" ng-click="goToOrganizationBoards()"><img src="~/Images/back.png"> Back to Boards</a></li>
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse navbar-right navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown"><img src="~/Images/user.png"><strong>User Settings</strong> <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/login"><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="col-md-4" ng-repeat="lane in lanes">
+            <div class="panel panel-default" id="accordion">
+                <div class="panel-heading">
+                    <form class="form-inline" role="form" ng-app="app.controllers">
+                        <div class="form-group">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                <h1 class="panel-title">
+                                    {{lane.Title}}
+                                </h1>
+                            </a>
+                        </div>
+                    <div>
+                        <button type="button" class="btn btn-sm btn-danger alert-danger" ng-click="removeLane(lane.Id)">
+                            <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>Remove
+                        </button>
+                        <a class="dropdown">
+                            <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown"><i class=" glyphicon glyphicon-edit"></i>Rename<b class="caret"></b></button>
+                            <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
+                                <li>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form class="form" role="form">
+                                                <div class="form-group">
+                                                    <input type="title" class="form-inline" id="title" ng-model="renameBoardModel.NewTitle" placeholder="New Title">
+                                                </div>
+                                                <div class="form-group">
+                                                    
+                                                        <button type="submit" class="btn btn-success btn-group" ng-click="renameBoard(board.Id)">
+                                                            <i class="glyphicon glyphicon-save"></i>Save
+                                                        </button>
+                                                    
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </a>
+                            <a class="dropdown">
+                                <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown"><i class=" glyphicon glyphicon-new-window"></i>+ Add Card<b class="caret"></b></button>
+                                <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
+                                    <li>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <form class="form" role="form">
+                                                    <div class="form-group">
+                                                        <input type="title" class="form-inline" id="title" ng-model="renameBoardModel.NewTitle" placeholder="Text Here">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        
+                                                            <button type="submit" class="btn btn-success btn-group" ng-click="renameBoard(board.Id)">
+                                                                <i class="glyphicon glyphicon-save"></i>Save
+                                                            </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+                <ul class="list-group" ng-repeat="card in lane.Cards">
+                    <a href="" class="list-group-item">{{card.Content}}</a>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--<section id="board" class="boards">-->
+    <!--
+    <div class="container">
+        <div class="row" ng-repeat="lane in lanes" style="margin-top: 1em">
+            <div class="col-md-6">
+                <div class="well well-sm">
+                    <div class="row">
+                        <div class="col-xs-3 col-md-3 text-center">
+                            <img src="~/Images/boardpr.png" alt="bootsnipp"
+                                 class="img-rounded img-responsive" />
+                        </div>
+                        <div class="col-xs-9 col-md-9 section-box">
+                            <a href="/lanes/{{board.Id}}">
+                                <h1>
+                                    <strong>{{board.Title}}</strong>
+                                </h1>
+                            </a>
+                            <hr />
+                            <div class="row rating-desc">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-labeled btn-danger alert-danger" ng-click="removeBoard(board.Id)">
+                                        <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>Remove
+                                    </button>
+                                    <a class="dropdown">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class=" glyphicon glyphicon-edit"></i>Rename<b class="caret"></b></button>
+                                        <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
+                                            <li>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <form class="form" role="form">
+                                                            <div class="form-group">
+                                                                <input type="title" class="form-control" id="title" ng-model="renameBoardModel.NewTitle" placeholder="New Title">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <button type="submit" class="btn btn-success btn-block" ng-click="renameBoard(board.Id)">
+                                                                    <i class="glyphicon glyphicon-save"></i>Save
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <!--</section>-->
+    <!-- Core JavaScript Files -->
+    <script src="~/Scripts/vendor/jquery-2.0.3.js"></script>
+    <script src="~/Scripts/vendor/bootstrap.min.js"></script>
+    <script src="~/Scripts/vendor/jquery.easing.min.js"></script>
+    <script src="~/Scripts/Directives/directives.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="~/Scripts/vendor/scrolling-nav.js"></script>
+</body>
+
+</html>
+<div class="modal fade" id="t_and_c_m" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel"><strong class="label label-primary">Add New Lane</strong></h4>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" name="title" ng-model="addLaneModel.Title" id="title" class="form-control input-lg" placeholder="Title New Lane">
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4">
+                            <button ng-click="addLane()" class="btn btn-lg btn-success btn-block">(+) Add</button>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4">
+                            <button ng-click="goToLanes()" class="btn btn-lg btn-primary btn-block" data-dismiss="modal" aria-hidden="true">Back to Lanes Page</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

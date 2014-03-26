@@ -228,6 +228,7 @@
     <Compile Include="Models\ChangePassModel.cs" />
     <Compile Include="Models\GetBoardModel.cs" />
     <Compile Include="Models\GetBoardsModel.cs" />
+    <Compile Include="Models\GetLanesModel.cs" />
     <Compile Include="Models\GetOrganizationsModel.cs" />
     <Compile Include="Models\MembersBoardModel.cs" />
     <Compile Include="Models\MoveCardModel.cs" />

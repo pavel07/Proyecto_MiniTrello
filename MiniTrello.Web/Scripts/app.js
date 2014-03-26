@@ -49,10 +49,10 @@ angular.module('app', ['ui.router', 'app.filters', 'app.services', 'app.directiv
                 templateUrl: '/views/boards',
                 controller: 'BoardController'
             })
-            .state('boardDetail', {
-                url: '/board/:boardId',
-                templateUrl: '/views/boardDetail',
-                controller: 'BoardController'
+            .state('lanes', {
+                url: '/lanes/:boardId',
+                templateUrl: '/views/lanes',
+                controller: 'LaneController'
             })
             .state('loadingpage', {
                 url: '/loading',

@@ -150,8 +150,11 @@ namespace MiniTrello.Api.Controllers
                 var initboard = new Board() { Title = "Welcome Board"};
                 var lanes = Builder<Lane>.CreateListOfSize(3).Build();
                 lanes[0].Title = "To Do";
+                lanes[0].IsArchived = false;
                 lanes[1].Title = "Doing";
+                lanes[1].IsArchived = false;
                 lanes[2].Title = "Done";
+                lanes[2].IsArchived = false;
                 foreach (var lane in lanes)
                 {
                     _writeOnlyRepository.Create(lane);
