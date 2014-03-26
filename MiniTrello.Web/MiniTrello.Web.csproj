@@ -156,8 +156,11 @@
     <Content Include="Content\toastr.min.css" />
     <Content Include="Content\variables.less" />
     <Content Include="Global.asax" />
+    <Content Include="Images\back.png" />
     <Content Include="Images\banner-bg.jpg" />
     <Content Include="Images\board.png" />
+    <Content Include="Images\boardpr.png" />
+    <Content Include="Images\boards.png" />
     <Content Include="Images\doge.png" />
     <Content Include="Images\home.png" />
     <Content Include="Images\intro-bg.jpg" />
@@ -555,7 +558,7 @@
     <Content Include="Views\_PageStart.cshtml" />
     <Content Include="Views\About.cshtml" />
     <Content Include="Views\register.cshtml" />
-    <Content Include="Views\Boards.cshtml" />
+    <Content Include="Views\boards.cshtml" />
     <Content Include="Views\BoardDetail.cshtml" />
     <Content Include="Views\LoadingPage.cshtml" />
     <Content Include="Views\organizations.cshtml" />

@@ -5,9 +5,9 @@ using System.Web;
 
 namespace MiniTrello.Api.Models
 {
-    public class AddBoardModel
+    public class RenameBoardResponseModel
     {
-        public long organizationId { get; set; }
-        public string Title { get; set; }
+        public int Status { get; set; }
+        public string Message { get; set; }
     }
 }

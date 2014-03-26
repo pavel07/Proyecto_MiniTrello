@@ -208,6 +208,7 @@
     <Compile Include="Models\AccountRegisterResponseModel.cs" />
     <Compile Include="Models\AccountUpdateModel.cs" />
     <Compile Include="Models\AddBoardModel.cs" />
+    <Compile Include="Models\AddBoardResponseModel.cs" />
     <Compile Include="Models\AddCardModel.cs" />
     <Compile Include="Models\AddLaneModel.cs" />
     <Compile Include="Models\AddOrganizationModel.cs" />
@@ -226,6 +227,7 @@
     <Compile Include="Models\AuthenticationModel.cs" />
     <Compile Include="Models\ChangePassModel.cs" />
     <Compile Include="Models\GetBoardModel.cs" />
+    <Compile Include="Models\GetBoardsModel.cs" />
     <Compile Include="Models\GetOrganizationsModel.cs" />
     <Compile Include="Models\MembersBoardModel.cs" />
     <Compile Include="Models\MoveCardModel.cs" />
@@ -234,6 +236,8 @@
     <Compile Include="Models\RemoveLaneModel.cs" />
     <Compile Include="Models\RemoveOrganizationModel.cs" />
     <Compile Include="Models\RemoveOrganizationResponseModel.cs" />
+    <Compile Include="Models\RenameBoardModel.cs" />
+    <Compile Include="Models\RenameBoardResponseModel.cs" />
     <Compile Include="Models\RenameOrgaModel.cs" />
     <Compile Include="Models\RenameOrgaResponseModel.cs" />
     <Compile Include="Models\RestorePasswordResponseModel.cs" />

@@ -8,10 +8,21 @@ angular.module('app.services').factory('BoardServices', ['$http', '$window', fun
     var baseLocalUrl = "http://localhost:1416";
     var baseUrl = baseLocalUrl;
 
-    board.getBoardsForLoggedUser = function () {
-        return $http.get(baseUrl + '/boards/' + $window.sessionStorage.token);
+    board.getBoardsForLoggedUser = function (organizationId) {
+        return $http.get(baseUrl + '/boards/'+ organizationId+'/' + $window.sessionStorage.token);
     };
 
+    board.addBoard = function (model) {
+        return $http.post(baseUrl + '/boards/' + $window.sessionStorage.token, model);
+    };
+
+    board.removeBoard = function (model) {
+        return $http.put(baseUrl + '/boards/' + $window.sessionStorage.token, model);
+    };
+
+    board.renameBoard = function (model) {
+        return $http.put(baseUrl + '/boards/renameboard/' + $window.sessionStorage.token, model);
+    };
     return board;
 
 }]);

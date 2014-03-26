@@ -28,23 +28,46 @@ namespace MiniTrello.Api.Controllers
             _mappingEngine = mappingEngine;
         }
 
-        [POST("organization/addBoard/{accesstoken}")]
-        public HttpResponseMessage AddBoard(string accesstoken, [FromBody] AddBoardModel model)
+        [POST("boards/{accesstoken}")]
+        public AddBoardResponseModel AddBoard(string accesstoken, [FromBody] AddBoardModel model)
         {
             Sessions sessions =
                 _readOnlyRepository.Query<Sessions>(sessions1 => sessions1.Token == accesstoken).FirstOrDefault();
             Account account = sessions.User;
-            var organization = _readOnlyRepository.GetById<Organization>(model.OrganizationId);
-            var board = _mappingEngine.Map<AddBoardModel, Board>(model);
-            board.Administrator = account;
-            var boardcreated = _writeOnlyRepository.Create(board);
-            organization.AddBoard(boardcreated);
-            var organizationupdated = _writeOnlyRepository.Update(organization);
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            if (account != null)
+            {
+                if (string.IsNullOrEmpty(model.Title))
+                {
+                    return new AddBoardResponseModel()
+                    {
+                        Title = "Error: ",
+                        Message = "Titulo no puede estar vacio",
+                        Status = 0
+                    };
+                }
+                var organization = _readOnlyRepository.GetById<Organization>(model.organizationId);
+                var board = _mappingEngine.Map<AddBoardModel, Board>(model);
+                board.Administrator = account;
+                var boardcreated = _writeOnlyRepository.Create(board);
+                organization.AddBoard(boardcreated);
+                _writeOnlyRepository.Update(organization);
+                return new AddBoardResponseModel()
+                {
+                    Title = boardcreated.Title,
+                    Message = "Board Creada Exitosamente",
+                    Status = 2
+                };
+            }
+            return new AddBoardResponseModel()
+            {
+                Title = "Error: ",
+                Message = "No se pudo agregar la Board",
+                Status = 0
+            };
         }
 
         [AcceptVerbs("DELETE")]
-        [DELETE("organization/removeboard")]
+        [DELETE("boards/removeboard")]
         public HttpResponseMessage RemoveBoard([FromBody] RemoveBoardModel model)
         {
             var board = _readOnlyRepository.GetById<Board>(model.BoardId);
