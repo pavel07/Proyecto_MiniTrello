@@ -76,22 +76,45 @@ namespace MiniTrello.Api.Controllers
             };
         }
 
-        [POST("boards/addlane")]
-        public HttpResponseMessage AddLane([FromBody] AddLaneModel model)
+        [POST("lanes/{accesstoken}")]
+        public AddLaneResponseModel AddLane(string accesstoken, [FromBody] AddLaneModel model)
         {
-            var lane = _mappingEngine.Map<AddLaneModel, Lane>(model);
-            var lanecreated = _writeOnlyRepository.Create(lane);
-            var board = _readOnlyRepository.GetById<Board>(model.BoardId);
-            if (board != null)
+            Sessions sessions =
+                _readOnlyRepository.Query<Sessions>(sessions1 => sessions1.Token == accesstoken).FirstOrDefault();
+            Account account = sessions.User;
+            if (account != null)
             {
+                if (string.IsNullOrEmpty(model.Title))
+                {
+                    return new AddLaneResponseModel()
+                    {
+                        Title = "Error: ",
+                        Message = "Titulo no puede estar vacio",
+                        Status = 0
+                    };
+                }
+                var board = _readOnlyRepository.GetById<Board>(model.BoardId);
+                var lane = _mappingEngine.Map<AddLaneModel, Lane>(model);
+                var lanecreated = _writeOnlyRepository.Create(lane);
                 board.AddLane(lanecreated);
                 _writeOnlyRepository.Update(board);
+                return new AddLaneResponseModel()
+                {
+                    Title = lanecreated.Title,
+                    Message = "Lane Creada Exitosamente",
+                    Status = 2
+                };
             }
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            return new AddLaneResponseModel()
+            {
+                Title = "Error: ",
+                Message = "No se pudo agregar la Board",
+                Status = 0
+            };
         }
 
-        [AcceptVerbs("DELETE")]
-        [DELETE("boards/removelane")]
+        [AcceptVerbs("PUT")]
+        [PUT("boards/removelane")]
         public HttpResponseMessage RemoveLane([FromBody] RemoveLaneModel model)
         {
             var lane = _readOnlyRepository.GetById<Lane>(model.LaneId);

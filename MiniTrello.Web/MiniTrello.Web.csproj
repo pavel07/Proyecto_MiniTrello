@@ -165,6 +165,7 @@
     <Content Include="Images\home.png" />
     <Content Include="Images\intro-bg.jpg" />
     <Content Include="Images\ipad.png" />
+    <Content Include="Images\lane.png" />
     <Content Include="Images\load.gif" />
     <Content Include="Images\Mini.png" />
     <Content Include="Images\organization.png" />

@@ -12,8 +12,8 @@ angular.module('app.services').factory('LaneServices', ['$http', '$window', func
         return $http.get(baseUrl + '/lanes/' + boardId + '/' + $window.sessionStorage.token);
     };
 
-    lane.addBoard = function (model) {
-        return $http.post(baseUrl + '/boards/' + $window.sessionStorage.token, model);
+    lane.addLane = function (model) {
+        return $http.post(baseUrl + '/lanes/' + $window.sessionStorage.token, model);
     };
 
     lane.removeBoard = function (model) {

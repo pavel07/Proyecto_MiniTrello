@@ -211,6 +211,7 @@
     <Compile Include="Models\AddBoardResponseModel.cs" />
     <Compile Include="Models\AddCardModel.cs" />
     <Compile Include="Models\AddLaneModel.cs" />
+    <Compile Include="Models\AddLaneResponseModel.cs" />
     <Compile Include="Models\AddOrganizationModel.cs" />
     <Compile Include="Models\AddOrganizationResponseModel.cs" />
     <Compile Include="Models\BoardModel.cs" />
