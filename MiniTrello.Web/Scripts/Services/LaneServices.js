@@ -16,12 +16,12 @@ angular.module('app.services').factory('LaneServices', ['$http', '$window', func
         return $http.post(baseUrl + '/lanes/' + $window.sessionStorage.token, model);
     };
 
-    lane.removeBoard = function (model) {
-        return $http.put(baseUrl + '/boards/' + $window.sessionStorage.token, model);
+    lane.removeLane= function (model) {
+        return $http.put(baseUrl + '/lanes/removelane/' + $window.sessionStorage.token, model);
     };
 
-    lane.renameBoard = function (model) {
-        return $http.put(baseUrl + '/boards/renameboard/' + $window.sessionStorage.token, model);
+    lane.renameLane = function (model) {
+        return $http.put(baseUrl + '/lanes/renamelane/' + $window.sessionStorage.token, model);
     };
     return lane;
 

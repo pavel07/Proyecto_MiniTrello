@@ -114,16 +114,27 @@ namespace MiniTrello.Api.Controllers
         }
 
         [AcceptVerbs("PUT")]
-        [PUT("boards/removelane")]
-        public HttpResponseMessage RemoveLane([FromBody] RemoveLaneModel model)
+        [PUT("lanes/removelane/{accesstoken}")]
+        public RemoveBoardResponseModel RemoveLane(string accesstoken, [FromBody] RemoveBoardModel model)
         {
-            var lane = _readOnlyRepository.GetById<Lane>(model.LaneId);
-            var archivelane = _writeOnlyRepository.Archive(lane);
-            if (archivelane.IsArchived)
+            Sessions sessions =
+                _readOnlyRepository.Query<Sessions>(sessions1 => sessions1.Token == accesstoken).FirstOrDefault();
+            Account account = sessions.User;
+            if (account != null)
             {
-                return  new HttpResponseMessage(HttpStatusCode.OK);
+                var lane = _readOnlyRepository.GetById<Lane>(model.Id);
+                _writeOnlyRepository.Archive(lane);
+                return new RemoveBoardResponseModel()
+                {
+                    Status = 2,
+                    Message = "Se elimino exitosamente"
+                };
             }
-            return new HttpResponseMessage(HttpStatusCode.NotModified);
+            return new RemoveBoardResponseModel()
+            {
+                Status = 0,
+                Message = "No se pudo eliminar"
+            };
         }
 
         [AcceptVerbs("GET")]

@@ -65,130 +65,48 @@
         </div>
     </nav>
     
-    <div class="container">
-        <div class="col-md-4" ng-repeat="lane in lanes">
-            <div class="panel panel-default" id="accordion">
-                <div class="panel-heading">
-                    <form class="form-inline" role="form" ng-app="app.controllers">
-                        <div class="form-group">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                <h1 class="panel-title">
-                                    {{lane.Title}}
-                                </h1>
-                            </a>
-                        </div>
-                    <div>
-                        <button type="button" class="btn btn-sm btn-danger alert-danger" ng-click="removeLane(lane.Id)">
-                            <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>Remove
-                        </button>
-                        <a class="dropdown">
-                            <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown"><i class=" glyphicon glyphicon-edit"></i>Rename<b class="caret"></b></button>
-                            <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
-                                <li>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <form class="form" role="form">
-                                                <div class="form-group">
-                                                    <input type="title" class="form-inline" id="title" ng-model="renameBoardModel.NewTitle" placeholder="New Title">
-                                                </div>
-                                                <div class="form-group">
-                                                    
-                                                        <button type="submit" class="btn btn-success btn-group" ng-click="renameBoard(board.Id)">
-                                                            <i class="glyphicon glyphicon-save"></i>Save
-                                                        </button>
-                                                    
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
+    <!--<section id="lane" class="lanes">-->
+    <div class="row" ng-app="app.controllers">
+        <div class="container">
+            <div class="col-md-4" ng-repeat="lane in lanes">
+                <div class="panel panel-default" id="accordion">
+                    <div class="panel-heading">
+                        <form class="form-inline" role="form" ng-app="app.controllers">
+                            <div class="form-group">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                    <h1 class="panel-title">
+                                        {{lane.Title}}
+                                    </h1>
+                                </a>
+                            </div>
+                            <div>
+                            <button type="button" class="btn btn-sm btn-danger alert-danger" ng-click="removeLane(lane.Id)">
+                                <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>Remove
+                            </button>
+                            <input type="text" class="form-control" id="title" ng-model="renameLaneModel.NewTitle" placeholder="New Lane Title">
+                            <button type="submit" class="btn btn-success btn-sm" ng-click="renameLane(lane.Id)">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </button></div>
+                        </form>
+                    </div>
+                    <ul class="list-group" ng-repeat="card in lane.Cards">
+                        <a href="#" class="list-group-item">
+                            {{card.Content}}
+                            <div align="right">
+                                <button type="submit" text-align="left" class="btn btn-default right" ng-click="removeCard(card.Id)">Remove</button>
+                            </div>
                         </a>
-                            <a class="dropdown">
-                                <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown"><i class=" glyphicon glyphicon-new-window"></i>+ Add Card<b class="caret"></b></button>
-                                <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <form class="form" role="form">
-                                                    <div class="form-group">
-                                                        <input type="title" class="form-inline" id="title" ng-model="renameBoardModel.NewTitle" placeholder="Text Here">
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        
-                                                            <button type="submit" class="btn btn-success btn-group" ng-click="renameBoard(board.Id)">
-                                                                <i class="glyphicon glyphicon-save"></i>Save
-                                                            </button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </a>
-                        </div>
-                    </form>
+                    </ul>
                 </div>
-                <ul class="list-group" ng-repeat="card in lane.Cards">
-                    <a href="" class="list-group-item">{{card.Content}}</a>
-                </ul>
+                <form class="form-inline" role="form">
+                    <button type="submit" class="btn btn-default right" ng-click="AddCard(lane.Id)">Add Card</button>
+                    <div class="form-group">
+                        <input ng-model="NewCardModel.Content" value="" type="text" class="form-control" id="card_name" placeholder="Text here">
+                    </div>
+                </form><br><br>
             </div>
         </div>
     </div>
-
-    <!--<section id="board" class="boards">-->
-    <!--
-    <div class="container">
-        <div class="row" ng-repeat="lane in lanes" style="margin-top: 1em">
-            <div class="col-md-6">
-                <div class="well well-sm">
-                    <div class="row">
-                        <div class="col-xs-3 col-md-3 text-center">
-                            <img src="~/Images/boardpr.png" alt="bootsnipp"
-                                 class="img-rounded img-responsive" />
-                        </div>
-                        <div class="col-xs-9 col-md-9 section-box">
-                            <a href="/lanes/{{board.Id}}">
-                                <h1>
-                                    <strong>{{board.Title}}</strong>
-                                </h1>
-                            </a>
-                            <hr />
-                            <div class="row rating-desc">
-                                <div class="col-md-12">
-                                    <button type="button" class="btn btn-labeled btn-danger alert-danger" ng-click="removeBoard(board.Id)">
-                                        <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>Remove
-                                    </button>
-                                    <a class="dropdown">
-                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class=" glyphicon glyphicon-edit"></i>Rename<b class="caret"></b></button>
-                                        <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
-                                            <li>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <form class="form" role="form">
-                                                            <div class="form-group">
-                                                                <input type="title" class="form-control" id="title" ng-model="renameBoardModel.NewTitle" placeholder="New Title">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <button type="submit" class="btn btn-success btn-block" ng-click="renameBoard(board.Id)">
-                                                                    <i class="glyphicon glyphicon-save"></i>Save
-                                                                </button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>-->
     <!--</section>-->
     <!-- Core JavaScript Files -->
     <script src="~/Scripts/vendor/jquery-2.0.3.js"></script>

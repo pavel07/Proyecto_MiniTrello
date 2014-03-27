@@ -71,6 +71,39 @@ namespace MiniTrello.Api.Controllers
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
+        [AcceptVerbs("PUT")]
+        [PUT("lanes/renamelane/{accesstoken}")]
+        public RenameBoardResponseModel Renameboard([FromBody] RenameBoardModel model, string accesstoken)
+        {
+            Sessions sessions =
+               _readOnlyRepository.Query<Sessions>(sessions1 => sessions1.Token == accesstoken).FirstOrDefault();
+            Account account = sessions.User;
+            if (account != null)
+            {
+                var lane = _readOnlyRepository.GetById<Lane>(model.Id);
+                if (string.IsNullOrEmpty(model.NewTitle))
+                {
+                    return new RenameBoardResponseModel()
+                    {
+                        Status = 0,
+                        Message = "Error: Titulo no puede estar vacio"
+                    };
+                }
+                lane.Title = model.NewTitle;
+                var boardUpdated = _writeOnlyRepository.Update(lane);
+                return new RenameBoardResponseModel()
+                {
+                    Status = 2,
+                    Message = "Listo"
+                };
+            }
+            return new RenameBoardResponseModel()
+            {
+                Status = 0,
+                Message = "Error"
+            };
+        }
+
         [AcceptVerbs("GET")]
         [GET("lanes/{boardId}/{accesstoken}")]
         public List<GetLanesModel> GetAllLanesForBoard(long boardId, string accesstoken)

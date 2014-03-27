@@ -11,8 +11,6 @@ angular.module('app.controllers')
 
             $scope.lanes = [];
 
-            $scope.cards = [];
-
             $scope.getLanesForLoggedUser = function () {
                 laneServices.getLanesForLoggedUser($stateParams.boardId)
                     .success(function (data, status, headers, config) {
@@ -70,6 +68,86 @@ angular.module('app.controllers')
                     });
             };
 
+            $scope.renameLaneModel = { Id: '', NewTitle: '' };
+
+            $scope.renameLane = function (laneId) {
+                $scope.renameLaneModel.Id = laneId;
+                laneServices.renameLane($scope.renameLaneModel)
+                    .success(function (data, status, headers, config) {
+                        if (data.Status == 0) {
+                            toastr.error(data.Message, "", {
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-bottom-right",
+                                "showEasing": "swing",
+                                "hideEasing": "swing",
+                                "showMethod": "slideDown",
+                                "hideMethod": "fadeOut"
+                            });
+                        }
+                        if (data.Status == 2) {
+                            toastr.success(data.Message, "", {
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-bottom-right",
+                                "showEasing": "swing",
+                                "hideEasing": "swing",
+                                "showMethod": "slideDown",
+                                "hideMethod": "fadeOut"
+                            });
+                            $scope.goToLanes();
+                        }
+                    })
+                    .error(function (data, status, headers, config) {
+                        console.log(data);
+                        toastr.error(data);
+                    });
+            };
+
+            $scope.deleteLaneModel = { Id: '' };
+
+            $scope.removeLane = function (laneId) {
+                $scope.deleteLaneModel.Id = laneId;
+                laneServices.removeLane($scope.deleteLaneModel)
+                    .success(function (data, status, headers, config) {
+                        if (data.Status == 0) {
+                            toastr.error(data.Message, "Board", {
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-bottom-right",
+                                "showEasing": "swing",
+                                "hideEasing": "swing",
+                                "showMethod": "slideDown",
+                                "hideMethod": "fadeOut"
+                            });
+                        }
+                        if (data.Status == 2) {
+                            toastr.success(data.Message, "", {
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-bottom-right",
+                                "showEasing": "swing",
+                                "hideEasing": "swing",
+                                "showMethod": "slideDown",
+                                "hideMethod": "fadeOut"
+                            });
+                            $scope.goToLanes();
+                        }
+                    })
+                    .error(function (data, status, headers, config) {
+                        console.log(data);
+                        toastr.error(data, "", {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-bottom-full-width",
+                            "showEasing": "swing",
+                            "hideEasing": "swing",
+                            "showMethod": "slideDown",
+                            "hideMethod": "fadeOut"
+                        });
+                    });
+            };
+
             $scope.goToOrganizationBoards = function(){
                 $location.path('/boards/' + $stateParams.boardId);
                 $scope.getBoardsForLoggedUser();
@@ -77,7 +155,7 @@ angular.module('app.controllers')
 
             $scope.goToLanes= function () {
                 $location.path('/lanes/' + $stateParams.boardId);
-                $scope.getBoardsForLoggedUser();
+                $scope.getLanesForLoggedUser();
 
             };
 
