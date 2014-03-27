@@ -28,33 +28,67 @@ namespace MiniTrello.Api.Controllers
             _mappingEngine = mappingEngine;
         }
 
-        [POST("lanes/addcard")]
-        public HttpResponseMessage AddCard([FromBody] AddCardModel model)
+        [POST("lanes/addcard/{accesstoken}")]
+        public AddLaneResponseModel AddCard(string accesstoken, [FromBody] AddCardModel model)
         {
-            var card = _mappingEngine.Map<AddCardModel, Card>(model);
-            var cardcreated = _writeOnlyRepository.Create(card);
-            var lane = _readOnlyRepository.GetById<Lane>(model.LaneId);
-            if (lane != null)
+            Sessions sessions =
+                _readOnlyRepository.Query<Sessions>(sessions1 => sessions1.Token == accesstoken).FirstOrDefault();
+            Account account = sessions.User;
+            if (account != null)
             {
+                if (string.IsNullOrEmpty(model.Content))
+                {
+                    return new AddLaneResponseModel()
+                    {
+                        Title = "Error: ",
+                        Message = "Contenido Vacio",
+                        Status = 0
+                    };
+                }
+                var lane = _readOnlyRepository.GetById<Lane>(model.LaneId);
+                var card = _mappingEngine.Map<AddCardModel, Card>(model);
+                var cardcreated = _writeOnlyRepository.Create(card);
                 lane.AddCard(cardcreated);
                 _writeOnlyRepository.Update(lane);
+                return new AddLaneResponseModel()
+                {
+                    Title = "",
+                    Message = "Card Agregada",
+                    Status = 2
+                };
             }
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            return new AddLaneResponseModel()
+            {
+                Title = "Error: ",
+                Message = "No se pudo agregar la Card",
+                Status = 0
+            };
         }
 
         [AcceptVerbs("PUT")]
-        [PUT("lanes/removecard")]
-        public HttpResponseMessage RemoveCard([FromBody] RemoveCardModel model)
+        [PUT("lanes/removecard/{accesstoken}")]
+        public RemoveBoardResponseModel RemoveCard(string accesstoken, [FromBody] RemoveCardModel model)
         {
-            var card = _readOnlyRepository.GetById<Card>(model.CardId);
-            var archivecard = _writeOnlyRepository.Archive(card);
-            if (archivecard.IsArchived)
+            Sessions sessions =
+                _readOnlyRepository.Query<Sessions>(sessions1 => sessions1.Token == accesstoken).FirstOrDefault();
+            Account account = sessions.User;
+            if (account != null)
             {
-                return new HttpResponseMessage(HttpStatusCode.OK);
+                var card = _readOnlyRepository.GetById<Card>(model.CardId);
+                _writeOnlyRepository.Archive(card);
+                return new RemoveBoardResponseModel()
+                {
+                    Status = 2,
+                    Message = "Card Eliminada"
+                };
             }
-            return new HttpResponseMessage(HttpStatusCode.NotModified);
+            return new RemoveBoardResponseModel()
+            {
+                Status = 0,
+                Message = "No se pudo eliminar"
+            };
         }
-
+       
         [AcceptVerbs("PUT")]
         [PUT("lanes/movecard")]
         public HttpResponseMessage MoveCardtoOtherLane([FromBody] MoveCardModel model)
@@ -115,15 +149,28 @@ namespace MiniTrello.Api.Controllers
             var board = _readOnlyRepository.GetById<Board>(boardId);
             var mappedLaneModelList = _mappingEngine.Map<IEnumerable<Lane>,
                 IEnumerable<GetLanesModel>>(board.Lanes).ToList();
-            var insArchivedList = new List<GetLanesModel>();
             foreach (var lane in mappedLaneModelList)
             {
-                if (lane.IsArchived == false)
-                {
-                    insArchivedList.Add(lane);
-                }
+                lane.Cards = GetCardsForLane(accesstoken,lane.Id);
+               
             }
-            return insArchivedList;
-        } 
+            return mappedLaneModelList.Where(lane => lane.IsArchived == false).ToList();
+        }
+
+        [AcceptVerbs("GET")]
+        [GET("lanes/{laneId}/{accesstoken}")]
+        public List<CardModel> GetCardsForLane(string accesstoken, long laneId)
+        {
+            
+            var lane = _readOnlyRepository.GetById<Lane>(laneId);
+            var cardList = new List<CardModel>();
+           
+            if (lane != null)
+            {
+                var mappedCardModelList = _mappingEngine.Map<IEnumerable<Card>, IEnumerable<CardModel>>(lane.Cards);
+                cardList = mappedCardModelList.Where(card => !card.IsArchived).ToList();
+            }
+            return cardList;
+        }
     }
 }

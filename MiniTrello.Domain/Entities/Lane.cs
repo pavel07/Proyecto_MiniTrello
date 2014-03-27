@@ -11,7 +11,6 @@ namespace MiniTrello.Domain.Entities
         public virtual IEnumerable<Card> Cards
         {
             get { return _cards; }
-            set { }
         }
 
         public virtual void AddCard(Card card)

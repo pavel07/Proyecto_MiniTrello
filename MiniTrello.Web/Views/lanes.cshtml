@@ -46,12 +46,13 @@
                     <li><a href="" data-toggle="modal" data-target="#t_and_c_m"><img src="~/Images/lane.png"> Add Lane</a></li>
                 </ul>
             </div>
+            <!--
             <div class="collapse navbar-collapse navbar-left navbar-ex1-collapse">
                 <ul class="nav">
                     <li class="divider-vertical"></li>
                     <li><a href="" ng-click="goToOrganizationBoards()"><img src="~/Images/back.png"> Back to Boards</a></li>
                 </ul>
-            </div>
+            </div>-->
             <div class="collapse navbar-collapse navbar-right navbar-ex1-collapse">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
@@ -90,10 +91,10 @@
                         </form>
                     </div>
                     <ul class="list-group" ng-repeat="card in lane.Cards">
-                        <a href="#" class="list-group-item">
+                        <a href="" class="list-group-item">
                             {{card.Content}}
                             <div align="right">
-                                <button type="submit" text-align="left" class="btn btn-default right" ng-click="removeCard(card.Id)">Remove</button>
+                                <button type="submit" text-align="left" class="btn btn-default right" ng-click="removeCard(card.Id)"><i class="glyphicon glyphicon-trash"></i>Remove</button>
                             </div>
                         </a>
                     </ul>

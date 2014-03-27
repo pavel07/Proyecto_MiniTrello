@@ -226,6 +226,7 @@
     <Compile Include="Models\AccountLoginModel.cs" />
     <Compile Include="Models\AccountRegisterModel.cs" />
     <Compile Include="Models\AuthenticationModel.cs" />
+    <Compile Include="Models\CardModel.cs" />
     <Compile Include="Models\ChangePassModel.cs" />
     <Compile Include="Models\GetBoardModel.cs" />
     <Compile Include="Models\GetBoardsModel.cs" />

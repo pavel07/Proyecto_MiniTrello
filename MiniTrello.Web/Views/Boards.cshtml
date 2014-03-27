@@ -76,38 +76,22 @@
                                  class="img-rounded img-responsive" />
                         </div>
                         <div class="col-xs-9 col-md-9 section-box">
-                            <a href="/lanes/{{board.Id}}">
+                            <a href="/lanes/{{board.Id}}" ng-model="place">
                                 <h1>
                                     <strong>{{board.Title}}</strong>
                                 </h1>
                             </a>
                             <hr />
-                            <div class="row rating-desc">
-                                <div class="col-md-12">
-                                    <button type="button" class="btn btn-labeled btn-danger alert-danger" ng-click="removeBoard(board.Id)">
-                                        <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>Remove
-                                    </button>
-                                    <a class="dropdown">
-                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><i class=" glyphicon glyphicon-edit"></i>Rename<b class="caret"></b></button>
-                                        <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
-                                            <li>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <form class="form" role="form">
-                                                            <div class="form-group">
-                                                                <input type="title" class="form-control" id="title" ng-model="renameBoardModel.NewTitle" placeholder="New Title">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <button type="submit" class="btn btn-success btn-block" ng-click="renameBoard(board.Id)">
-                                                                    <i class="glyphicon glyphicon-save"></i>Save
-                                                                </button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </a>
+                            <div class="form form-inline">
+                                <div >
+                                        <button type="button" class="btn btn-labeled btn-danger alert-danger" ng-click="removeBoard(board.Id)">
+                                            <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>Remove
+                                        </button>
+                                        <input type="text" class="form-control" id="title" ng-model="renameBoardModel.NewTitle" placeholder="New Board Title">
+                                        <button type="submit" class="btn btn-success btn-sm" ng-click="renameBoard(board.Id)">
+                                            <i class="glyphicon glyphicon-edit"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

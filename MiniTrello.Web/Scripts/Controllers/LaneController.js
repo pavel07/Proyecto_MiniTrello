@@ -8,7 +8,6 @@ angular.module('app.controllers')
         '$scope', '$location', '$window', 'LaneServices', '$stateParams', function($scope, $location, $window, laneServices, $stateParams) {
 
             $scope.$root.title = '| MiniTrello Web';
-
             $scope.lanes = [];
 
             $scope.getLanesForLoggedUser = function () {
@@ -148,8 +147,97 @@ angular.module('app.controllers')
                     });
             };
 
-            $scope.goToOrganizationBoards = function(){
-                $location.path('/boards/' + $stateParams.boardId);
+            $scope.NewCardModel = { LaneId:'', Content: '' };
+
+            $scope.AddCard = function (laneId) {
+                $scope.NewCardModel.LaneId = laneId;
+                laneServices
+                    .AddCard($scope.NewCardModel)
+                    .success(function(data, status, headers, config) {
+                        if (data.Status == 0) {
+                            toastr.error(data.Message, data.Title, {
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-bottom-right",
+                                "showEasing": "swing",
+                                "hideEasing": "swing",
+                                "showMethod": "slideDown",
+                                "hideMethod": "fadeOut"
+                            });
+                            $scope.NewCardModel.Content = '';
+                        }
+                        if (data.Status == 2) {
+                            toastr.success(data.Message, data.Title, {
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-bottom-right",
+                                "showEasing": "swing",
+                                "hideEasing": "swing",
+                                "showMethod": "slideDown",
+                                "hideMethod": "fadeOut"
+                            });
+                            $scope.goToLanes();
+                        }
+                    })
+                .error(function (data, status, headers, config) {
+                    console.log(data);
+                    toastr.error(data, "", {
+                        "closeButton": true,
+                        "positionClass": "toast-bottom-full-width",
+                        "showEasing": "swing",
+                        "hideEasing": "swing",
+                        "showMethod": "slideDown",
+                        "hideMethod": "fadeOut"
+                    });
+                });
+            };
+
+            $scope.deleteCardModel = { CardId:'' };
+
+            $scope.removeCard = function (cardId) {
+                $scope.deleteCardModel.CardId = cardId;
+                laneServices.removeCard($scope.deleteCardModel)
+                    .success(function (data, status, headers, config) {
+                        if (data.Status == 0) {
+                            toastr.error(data.Message, "Board", {
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-bottom-right",
+                                "showEasing": "swing",
+                                "hideEasing": "swing",
+                                "showMethod": "slideDown",
+                                "hideMethod": "fadeOut"
+                            });
+                        }
+                        if (data.Status == 2) {
+                            toastr.success(data.Message, "", {
+                                "closeButton": true,
+                                "debug": false,
+                                "positionClass": "toast-bottom-right",
+                                "showEasing": "swing",
+                                "hideEasing": "swing",
+                                "showMethod": "slideDown",
+                                "hideMethod": "fadeOut"
+                            });
+                            $scope.goToLanes();
+                        }
+                    })
+                    .error(function (data, status, headers, config) {
+                        console.log(data);
+                        toastr.error(data, "", {
+                            "closeButton": true,
+                            "debug": false,
+                            "positionClass": "toast-bottom-full-width",
+                            "showEasing": "swing",
+                            "hideEasing": "swing",
+                            "showMethod": "slideDown",
+                            "hideMethod": "fadeOut"
+                        });
+                    });
+            };
+
+            $scope.goToOrganizationBoards = function(boardId){
+                $location.path('/boards/');
                 $scope.getBoardsForLoggedUser();
             };
 
